@@ -90,8 +90,8 @@ function updateGameSetup(name: string, value: string): void {
     gameSetup.boardSize = boardSize;
   }
 
-  if (name === "theme" && Object.hasOwn(THEME_NAMES, value)) {
-    gameSetup.theme = value as ThemeId;
+  if (name === "theme" && isThemeId(value)) {
+    gameSetup.theme = value;
   }
 }
 
