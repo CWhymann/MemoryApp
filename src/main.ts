@@ -1,60 +1,320 @@
-import './style.css'
-import heroImg from './assets/hero.png'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.ts'
+import "./style.css";
+import {
+  awardPoint,
+  createDeck,
+  createPlayers,
+  getNextPlayer,
+  getWinner,
+  isMatchingPair,
+} from "./game/game-logic";
+import { THEME_CARDS, THEME_NAMES } from "./game/theme-data";
+import type {
+  GameSetup,
+  GameState,
+  MemoryCard,
+  PlayerColor,
+  ThemeId,
+} from "./game/types";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+const gameSetup: GameSetup = {
+  playerColor: null,
+  boardSize: null,
+  theme: null,
+};
 
-<div class="ticks"></div>
+const board = getElement<HTMLDivElement>("#game-board");
+const cardTemplate = getElement<HTMLTemplateElement>("#memory-card-template");
+const exitDialog = getElement<HTMLDialogElement>("#exit-dialog");
+const startButton = getElement<HTMLButtonElement>("#start-game");
+const screens = document.querySelectorAll<HTMLElement>(".screen");
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+let gameState: GameState | null = null;
+let openCards: MemoryCard[] = [];
+let boardLocked = false;
+let mismatchTimer: number | undefined;
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+/** Returns a required element or throws a descriptive error. */
+function getElement<T extends HTMLElement>(selector: string): T {
+  const element = document.querySelector<T>(selector);
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+  if (!element) throw new Error(`Required element not found: ${selector}`);
+  return element;
+}
+
+/** Checks whether a string is a supported player color. */
+function isPlayerColor(value: string): value is PlayerColor {
+  return value === "blue" || value === "orange";
+}
+
+/** Checks whether a number is a supported board size. */
+function isBoardSize(value: number): value is 16 | 24 | 36 {
+  return value === 16 || value === 24 || value === 36;
+}
+
+/** Checks whether a string is a supported theme. */
+function isThemeId(value: string): value is ThemeId {
+  return Object.hasOwn(THEME_NAMES, value);
+}
+
+/** Displays the screen that matches the supplied name. */
+function showScreen(screenName: string): void {
+  screens.forEach((screen) => {
+    const isActive = screen.dataset.screen === screenName;
+    screen.hidden = !isActive;
+    screen.classList.toggle("screen--active", isActive);
+  });
+}
+
+/** Updates the selected options and Start button. */
+function updateSetupDisplay(): void {
+  const selectedOptions: string[] = [];
+
+  if (gameSetup.playerColor) selectedOptions.push(gameSetup.playerColor);
+  if (gameSetup.boardSize) selectedOptions.push(`${gameSetup.boardSize} cards`);
+  if (gameSetup.theme) selectedOptions.push(THEME_NAMES[gameSetup.theme]);
+
+  getElement("#selection-summary").textContent =
+    selectedOptions.join(" · ") || "Choose your game settings.";
+  startButton.disabled = selectedOptions.length !== 3;
+}
+
+/** Stores a valid setting selected by the user. */
+function updateGameSetup(name: string, value: string): void {
+  if (name === "playerColor" && isPlayerColor(value)) {
+    gameSetup.playerColor = value;
+  }
+
+  const boardSize = Number(value);
+
+  if (name === "boardSize" && isBoardSize(boardSize)) {
+    gameSetup.boardSize = boardSize;
+  }
+
+  if (name === "theme" && Object.hasOwn(THEME_NAMES, value)) {
+    gameSetup.theme = value as ThemeId;
+  }
+}
+
+/** Updates the setup after a radio option changes. */
+function handleSettingsChange(event: Event): void {
+  const input = event.target;
+
+  if (!(input instanceof HTMLInputElement) || !input.checked) return;
+  updateGameSetup(input.name, input.value);
+  updateSetupDisplay();
+}
+
+/** Creates a fresh game state from the selected settings. */
+function createGameState(): GameState | null {
+  const { playerColor, boardSize, theme } = gameSetup;
+
+  if (!playerColor || !boardSize || !theme) return null;
+
+  return {
+    cards: createDeck(THEME_CARDS[theme], boardSize),
+    players: createPlayers(playerColor),
+    currentPlayer: playerColor,
+    moves: 0,
+    status: "playing",
+  };
+}
+
+/** Adds one card button to the board. */
+function addCard(card: MemoryCard): void {
+  const fragment = cardTemplate.content.cloneNode(true) as DocumentFragment;
+  const button = fragment.querySelector<HTMLButtonElement>(".memory-card");
+
+  if (!button)
+    throw new Error("The memory card template is missing its button.");
+  button.dataset.cardId = card.cardId;
+  button.setAttribute("aria-label", "Hidden card");
+  board.append(fragment);
+}
+
+/** Displays the selected deck and theme. */
+function renderBoard(): void {
+  if (!gameState || !gameSetup.boardSize || !gameSetup.theme) return;
+
+  board.replaceChildren();
+  board.dataset.cardCount = String(gameSetup.boardSize);
+  board.dataset.theme = gameSetup.theme;
+  gameState.cards.forEach(addCard);
+  getElement("#game-theme-heading").textContent = THEME_NAMES[gameSetup.theme];
+}
+
+/** Updates a card button to match its current state. */
+function renderCard(card: MemoryCard): void {
+  const button = board.querySelector<HTMLButtonElement>(
+    `[data-card-id="${card.cardId}"]`,
+  );
+  const symbol = button?.querySelector<HTMLSpanElement>(".memory-card__symbol");
+
+  if (!button || !symbol) return;
+
+  symbol.textContent = card.symbol;
+  button.classList.toggle("is-flipped", card.faceUp || card.matched);
+  button.classList.toggle("is-matched", card.matched);
+  button.setAttribute(
+    "aria-label",
+    card.matched ? `Matched: ${card.label}` : card.label,
+  );
+}
+
+/** Updates both scores and the current player's label. */
+function updateScoreboard(): void {
+  if (!gameState) return;
+
+  const bluePlayer = gameState.players.find(
+    (player) => player.color === "blue",
+  );
+  const orangePlayer = gameState.players.find(
+    (player) => player.color === "orange",
+  );
+
+  getElement("#blue-score").textContent = String(bluePlayer?.score ?? 0);
+  getElement("#orange-score").textContent = String(orangePlayer?.score ?? 0);
+  getElement("#current-player").textContent = gameState.currentPlayer;
+}
+
+/** Starts a new game with the selected settings. */
+function startGame(): void {
+  window.clearTimeout(mismatchTimer);
+  boardLocked = false;
+  openCards = [];
+  gameState = createGameState();
+
+  if (!gameState) return;
+
+  renderBoard();
+  updateScoreboard();
+  showScreen("game");
+}
+
+/** Finds a card from a click inside the board. */
+function findClickedCard(target: EventTarget | null): MemoryCard | undefined {
+  if (!(target instanceof HTMLElement) || !gameState) return undefined;
+
+  const button = target.closest<HTMLButtonElement>(".memory-card");
+  return gameState.cards.find((card) => card.cardId === button?.dataset.cardId);
+}
+
+/** Reveals a card and resolves the turn after two selections. */
+function handleBoardClick(event: MouseEvent): void {
+  if (!gameState || boardLocked || gameState.status !== "playing") return;
+
+  const card = findClickedCard(event.target);
+  if (!card || card.faceUp || card.matched) return;
+
+  card.faceUp = true;
+  openCards.push(card);
+  renderCard(card);
+  if (openCards.length === 2) resolvePair();
+}
+
+/** Compares the two revealed cards. */
+function resolvePair(): void {
+  if (!gameState || openCards.length !== 2) return;
+
+  gameState.moves += 1;
+  const [firstCard, secondCard] = openCards;
+
+  if (isMatchingPair(firstCard, secondCard)) {
+    handleMatch(firstCard, secondCard);
+  } else {
+    handleMismatch(firstCard, secondCard);
+  }
+}
+
+/** Awards a point and keeps the turn when the cards match. */
+function handleMatch(firstCard: MemoryCard, secondCard: MemoryCard): void {
+  if (!gameState) return;
+
+  firstCard.matched = true;
+  secondCard.matched = true;
+  gameState.players = awardPoint(gameState.players, gameState.currentPlayer);
+  openCards = [];
+  renderCard(firstCard);
+  renderCard(secondCard);
+  updateScoreboard();
+
+  if (gameState.cards.every((card) => card.matched)) finishGame();
+}
+
+/** Hides a mismatch, then passes the turn to the other player. */
+function handleMismatch(firstCard: MemoryCard, secondCard: MemoryCard): void {
+  if (!gameState) return;
+
+  boardLocked = true;
+  const activeGame = gameState;
+  mismatchTimer = window.setTimeout(
+    () => hideMismatchedCards(activeGame, firstCard, secondCard),
+    850,
+  );
+}
+
+/** Turns mismatched cards face down and switches the active player. */
+function hideMismatchedCards(
+  activeGame: GameState,
+  firstCard: MemoryCard,
+  secondCard: MemoryCard,
+): void {
+  if (gameState !== activeGame) return;
+
+  firstCard.faceUp = false;
+  secondCard.faceUp = false;
+  renderCard(firstCard);
+  renderCard(secondCard);
+  gameState.currentPlayer = getNextPlayer(gameState.currentPlayer);
+  openCards = [];
+  boardLocked = false;
+  updateScoreboard();
+}
+
+/** Displays the final scores and winner message. */
+function finishGame(): void {
+  if (!gameState) return;
+
+  gameState.status = "finished";
+  const winner = getWinner(gameState.players);
+  const message = winner === "tie" ? "It’s a draw!" : `${winner} player wins!`;
+
+  getElement("#winner-message").textContent = message;
+  getElement("#result-blue-score").textContent = String(
+    gameState.players.find((player) => player.color === "blue")?.score ?? 0,
+  );
+  getElement("#result-orange-score").textContent = String(
+    gameState.players.find((player) => player.color === "orange")?.score ?? 0,
+  );
+  showScreen("result");
+}
+
+/** Runs the action associated with a clicked button. */
+function runAction(action: string): void {
+  if (action === "open-settings") showScreen("settings");
+  if (action === "exit-game") exitDialog.showModal();
+  if (action === "cancel-exit") exitDialog.close();
+  if (action === "confirm-exit") {
+    window.clearTimeout(mismatchTimer);
+    exitDialog.close();
+    showScreen("settings");
+  }
+  if (action === "play-again") startGame();
+  if (action === "back-home") showScreen("home");
+}
+
+/** Finds and runs the action for a clicked button. */
+function handleButtonClick(event: MouseEvent): void {
+  const target = event.target;
+
+  if (!(target instanceof HTMLElement)) return;
+  const button = target.closest<HTMLButtonElement>("[data-action]");
+  if (button?.dataset.action) runAction(button.dataset.action);
+}
+
+getElement<HTMLFormElement>("#settings-form").addEventListener(
+  "change",
+  handleSettingsChange,
+);
+startButton.addEventListener("click", startGame);
+board.addEventListener("click", handleBoardClick);
+document.addEventListener("click", handleButtonClick);

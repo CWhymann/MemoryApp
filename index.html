@@ -2,12 +2,267 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>memory-app</title>
+    <meta name="theme-color" content="#303131" />
+    <meta
+      name="description"
+      content="A two-player memory game with custom themes and board sizes."
+    />
+    <title>Memory</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Delius+Unicase:wght@700&family=Klee+One:wght@400;600&family=Red+Rose:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div id="app"></div>
+    <main id="app">
+      <section class="screen home-screen" data-screen="home">
+        <div class="home-screen__content">
+          <div class="home-screen__copy">
+            <p class="home-screen__eyebrow">It’s play time.</p>
+            <h1>Ready to play?</h1>
+          </div>
+
+          <button
+            class="primary-button home-screen__button"
+            type="button"
+            data-action="open-settings"
+          >
+            <img src="/assets/icons/controller-button.svg" alt="" />
+            <span>Play</span>
+            <img
+              class="primary-button__arrow"
+              src="/assets/icons/arrow.svg"
+              alt=""
+            />
+          </button>
+        </div>
+
+        <img
+          class="home-screen__controller"
+          src="/assets/icons/controller-decoration.svg"
+          alt=""
+        />
+      </section>
+
+      <section class="screen settings-screen" data-screen="settings" hidden>
+        <div class="settings-screen__content">
+          <header class="page-heading">
+            <p class="page-heading__eyebrow">Memory game</p>
+            <h1>Settings</h1>
+          </header>
+
+          <form id="settings-form" class="settings-layout">
+            <div class="settings-layout__choices">
+              <fieldset class="choice-group">
+                <legend>
+                  <span class="choice-group__icon" aria-hidden="true">♟</span>
+                  Choose player
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="playerColor" value="blue" />
+                  <span
+                    class="radio-option__dot radio-option__dot--blue"
+                  ></span>
+                  <span>Blue</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="playerColor" value="orange" />
+                  <span
+                    class="radio-option__dot radio-option__dot--orange"
+                  ></span>
+                  <span>Orange</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="choice-group">
+                <legend>
+                  <span class="choice-group__icon" aria-hidden="true">▦</span>
+                  Board size
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="16" />
+                  <span class="radio-option__dot"></span>
+                  <span>16 cards</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="24" />
+                  <span class="radio-option__dot"></span>
+                  <span>24 cards</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="36" />
+                  <span class="radio-option__dot"></span>
+                  <span>36 cards</span>
+                </label>
+              </fieldset>
+            </div>
+
+            <fieldset class="choice-group theme-group">
+              <legend>
+                <span class="choice-group__icon" aria-hidden="true">◈</span>
+                Game themes
+              </legend>
+
+              <div class="theme-grid">
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="code-vibes" />
+                  <span class="theme-card theme-card--code">
+                    <span class="theme-card__art" aria-hidden="true"
+                      >&lt;/&gt;</span
+                    >
+                    <span class="theme-card__name">Code vibes</span>
+                  </span>
+                </label>
+
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="gaming" />
+                  <span class="theme-card theme-card--gaming">
+                    <span class="theme-card__art" aria-hidden="true">✦</span>
+                    <span class="theme-card__name">Gaming</span>
+                  </span>
+                </label>
+
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="da-projects" />
+                  <span class="theme-card theme-card--projects">
+                    <span class="theme-card__art" aria-hidden="true">DA</span>
+                    <span class="theme-card__name">DA projects</span>
+                  </span>
+                </label>
+
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="foods" />
+                  <span class="theme-card theme-card--foods">
+                    <span class="theme-card__art" aria-hidden="true">✿</span>
+                    <span class="theme-card__name">Foods</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="settings-footer">
+              <p id="selection-summary">
+                Choose a player, board size and theme to continue.
+              </p>
+              <button
+                class="primary-button primary-button--small"
+                id="start-game"
+                type="button"
+                disabled
+              >
+                <span>Start</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="screen game-screen" data-screen="game" hidden>
+        <header class="game-header">
+          <div class="scoreboard" aria-label="Player scores">
+            <p class="scoreboard__player scoreboard__player--blue">
+              Blue <strong id="blue-score">0</strong>
+            </p>
+            <p class="scoreboard__player scoreboard__player--orange">
+              Orange <strong id="orange-score">0</strong>
+            </p>
+          </div>
+
+          <p class="current-player">
+            Current player
+            <strong id="current-player">Blue</strong>
+          </p>
+
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="exit-game"
+          >
+            Exit game
+          </button>
+        </header>
+
+        <h1 id="game-theme-heading" class="game-title">Memory</h1>
+        <div
+          id="game-board"
+          class="memory-board"
+          aria-label="Memory cards"
+        ></div>
+      </section>
+
+      <section class="screen result-screen" data-screen="result" hidden>
+        <div class="result-panel">
+          <p class="page-heading__eyebrow">Round complete</p>
+          <h1>GAME OVER</h1>
+          <p id="winner-message" class="result-panel__winner"></p>
+
+          <div class="result-panel__scores">
+            <p>Blue <strong id="result-blue-score">0</strong></p>
+            <p>Orange <strong id="result-orange-score">0</strong></p>
+          </div>
+
+          <div class="result-panel__actions">
+            <button
+              class="secondary-button"
+              type="button"
+              data-action="back-home"
+            >
+              Home
+            </button>
+            <button
+              class="primary-button primary-button--small"
+              type="button"
+              data-action="play-again"
+            >
+              Play again
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <template id="memory-card-template">
+      <button class="memory-card" type="button" aria-label="Hidden card">
+        <span class="memory-card__back" aria-hidden="true">✦</span>
+        <span class="memory-card__symbol" aria-hidden="true"></span>
+      </button>
+    </template>
+
+    <dialog
+      id="exit-dialog"
+      class="exit-dialog"
+      aria-labelledby="exit-dialog-title"
+    >
+      <h2 id="exit-dialog-title">Leave the game?</h2>
+      <p>Your current game will end.</p>
+      <div class="exit-dialog__actions">
+        <button
+          class="secondary-button"
+          type="button"
+          data-action="cancel-exit"
+        >
+          Keep playing
+        </button>
+        <button
+          class="primary-button primary-button--small"
+          type="button"
+          data-action="confirm-exit"
+        >
+          Exit game
+        </button>
+      </div>
+    </dialog>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
