@@ -201,32 +201,30 @@
       </section>
 
       <section class="screen result-screen" data-screen="result" hidden>
-        <div class="result-panel">
-          <p class="page-heading__eyebrow">Round complete</p>
-          <h1>GAME OVER</h1>
-          <p id="winner-message" class="result-panel__winner"></p>
+        <div class="result-panel" data-outcome="winner" hidden>
+          <p class="result-panel__eyebrow">The winner is</p>
+          <h1 id="winner-name" class="result-panel__name"></h1>
+          <span class="result-panel__pawn" aria-hidden="true">♟</span>
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="back-home"
+          >
+            Home
+          </button>
+        </div>
 
-          <div class="result-panel__scores">
-            <p>Blue <strong id="result-blue-score">0</strong></p>
-            <p>Orange <strong id="result-orange-score">0</strong></p>
-          </div>
-
-          <div class="result-panel__actions">
-            <button
-              class="secondary-button"
-              type="button"
-              data-action="back-home"
-            >
-              Home
-            </button>
-            <button
-              class="primary-button primary-button--small"
-              type="button"
-              data-action="play-again"
-            >
-              Play again
-            </button>
-          </div>
+        <div class="result-panel" data-outcome="draw" hidden>
+          <p class="result-panel__eyebrow">It’s a</p>
+          <h1 class="result-panel__name">DRAW</h1>
+          <span class="result-panel__pawn" aria-hidden="true">⚖</span>
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="back-home"
+          >
+            Home
+          </button>
         </div>
       </section>
     </main>

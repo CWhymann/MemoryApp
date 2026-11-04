@@ -274,22 +274,28 @@ function hideMismatchedCards(
   updateScoreboard();
 }
 
-/** Displays the final scores and the winner or draw message. */
+/** Shows only the result panel that matches the outcome. */
+function showOutcome(outcome: string): void {
+  document.querySelectorAll<HTMLElement>("[data-outcome]").forEach((panel) => {
+    panel.hidden = panel.dataset.outcome !== outcome;
+  });
+}
+
+/** Displays the winner or draw screen after the last pair. */
 function finishGame(): void {
-  if (!gameState) return;
+  if (!gameState || !gameSetup.theme) return;
 
   gameState.status = "finished";
+  getElement<HTMLElement>(".result-screen").dataset.theme = gameSetup.theme;
   const winner = getWinner(gameState.players);
-  const message =
-    winner === "tie" ? "It’s a draw!" : `The winner is ${winner} player`;
 
-  getElement("#winner-message").textContent = message;
-  getElement("#result-blue-score").textContent = String(
-    gameState.players.find((player) => player.color === "blue")?.score ?? 0,
-  );
-  getElement("#result-orange-score").textContent = String(
-    gameState.players.find((player) => player.color === "orange")?.score ?? 0,
-  );
+  if (winner === "tie") {
+    showOutcome("draw");
+  } else {
+    getElement("#winner-name").textContent = `${winner} player`;
+    showOutcome("winner");
+  }
+
   showScreen("result");
 }
 

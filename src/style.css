@@ -474,55 +474,36 @@ input:focus-visible + span {
   min-height: 100vh;
   place-items: center;
   padding: 24px;
-  color: white;
-  background: var(--orange);
+  color: var(--theme-ink);
+  background: var(--theme-page);
 }
 
 .result-panel {
+  display: flex;
   width: min(100%, 720px);
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
   text-align: center;
 }
 
-.result-panel h1 {
-  margin: 0 0 24px;
-  font-family: "Klee One", sans-serif;
-  font-size: clamp(3.5rem, 12vw, 8rem);
+.result-panel__eyebrow {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 2rem);
 }
 
-.result-panel__winner {
-  font-family: "Klee One", sans-serif;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  text-transform: capitalize;
-}
-
-.result-panel__scores,
-.result-panel__actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-.result-panel__scores {
-  margin: 28px 0;
-  color: var(--ink);
-}
-
-.result-panel__scores p {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: white;
-  padding: 16px 22px;
-}
-
-.result-panel__scores strong {
+.result-panel__name {
+  margin: 0;
   font-family: "Red Rose", serif;
-  font-size: 2rem;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-.result-panel__actions {
-  flex-wrap: wrap;
+.result-panel__pawn {
+  color: var(--theme-accent);
+  font-size: clamp(6rem, 20vw, 12rem);
+  line-height: 1;
 }
 
 .exit-dialog {
