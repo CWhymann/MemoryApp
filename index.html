@@ -51,17 +51,41 @@
       <section class="screen settings-screen" data-screen="settings" hidden>
         <div class="settings-screen__content">
           <header class="page-heading">
-            <p class="page-heading__eyebrow">Memory game</p>
             <h1>Settings</h1>
           </header>
 
           <form id="settings-form" class="settings-layout">
             <div class="settings-layout__choices">
               <fieldset class="choice-group">
-                <legend>
-                  <span class="choice-group__icon" aria-hidden="true">♟</span>
-                  Choose player
-                </legend>
+                <legend>Game themes</legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="code-vibes" />
+                  <span class="radio-option__dot"></span>
+                  <span>Code vibes theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="gaming" />
+                  <span class="radio-option__dot"></span>
+                  <span>Gaming theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="da-projects" />
+                  <span class="radio-option__dot"></span>
+                  <span>DA Projects theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="foods" />
+                  <span class="radio-option__dot"></span>
+                  <span>Foods theme</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="choice-group">
+                <legend>Choose player</legend>
 
                 <label class="radio-option">
                   <input type="radio" name="playerColor" value="blue" />
@@ -81,10 +105,7 @@
               </fieldset>
 
               <fieldset class="choice-group">
-                <legend>
-                  <span class="choice-group__icon" aria-hidden="true">▦</span>
-                  Board size
-                </legend>
+                <legend>Board size</legend>
 
                 <label class="radio-option">
                   <input type="radio" name="boardSize" value="16" />
@@ -106,48 +127,27 @@
               </fieldset>
             </div>
 
-            <fieldset class="choice-group theme-group">
-              <legend>
-                <span class="choice-group__icon" aria-hidden="true">◈</span>
-                Game themes
-              </legend>
-
-              <div class="theme-grid">
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="code-vibes" />
-                  <span class="theme-card theme-card--code">
-                    <span class="theme-card__art" aria-hidden="true"
-                      >&lt;/&gt;</span
-                    >
-                    <span class="theme-card__name">Code vibes</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="gaming" />
-                  <span class="theme-card theme-card--gaming">
-                    <span class="theme-card__art" aria-hidden="true">✦</span>
-                    <span class="theme-card__name">Gaming</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="da-projects" />
-                  <span class="theme-card theme-card--projects">
-                    <span class="theme-card__art" aria-hidden="true">DA</span>
-                    <span class="theme-card__name">DA projects</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="foods" />
-                  <span class="theme-card theme-card--foods">
-                    <span class="theme-card__art" aria-hidden="true">✿</span>
-                    <span class="theme-card__name">Foods</span>
-                  </span>
-                </label>
+            <div class="settings-preview" aria-hidden="true">
+              <div class="preview preview--code-vibes">
+                <span class="preview__tile preview__tile--main"></span>
+                <span class="preview__tile preview__tile--side"></span>
               </div>
-            </fieldset>
+
+              <div class="preview preview--gaming">
+                <span class="preview__tile preview__tile--main"></span>
+                <span class="preview__tile preview__tile--side"></span>
+              </div>
+
+              <div class="preview preview--da-projects">
+                <span class="preview__tile preview__tile--main"></span>
+                <span class="preview__tile preview__tile--side"></span>
+              </div>
+
+              <div class="preview preview--foods">
+                <span class="preview__tile preview__tile--main"></span>
+                <span class="preview__tile preview__tile--side"></span>
+              </div>
+            </div>
 
             <div class="settings-footer">
               <p id="selection-summary">

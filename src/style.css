@@ -152,26 +152,20 @@ input:focus-visible + span {
 
 .settings-screen {
   display: grid;
-  align-items: center;
-  justify-items: center;
+  align-items: start;
   padding: 48px max(28px, calc((100% - 1100px) / 2));
   background: white;
 }
 
 .settings-screen__content {
-  width: min(100%, 1100px);
+  width: 100%;
 }
 
 .page-heading {
-  margin-bottom: 48px;
-}
-
-.page-heading__eyebrow {
-  margin: 0 0 8px;
-  color: var(--muted);
-  font-size: 0.875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 56px;
+  padding-bottom: 14px;
 }
 
 .page-heading h1 {
@@ -180,16 +174,38 @@ input:focus-visible + span {
   font-size: clamp(3rem, 6vw, 5rem);
 }
 
+.page-heading::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: -14px;
+  height: 4px;
+  background: var(--yellow);
+}
+
+.page-heading::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -18px;
+  width: 12px;
+  height: 12px;
+  background: var(--yellow);
+  transform: rotate(45deg);
+}
+
 .settings-layout {
   display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) minmax(360px, 1.2fr);
+  grid-template-columns: minmax(260px, 1fr) minmax(360px, 1.4fr);
   gap: 48px;
+  align-items: start;
 }
 
 .settings-layout__choices {
   display: flex;
   flex-direction: column;
-  gap: 42px;
+  gap: 40px;
 }
 
 .choice-group {
@@ -200,34 +216,23 @@ input:focus-visible + span {
 }
 
 .choice-group legend {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin-bottom: 16px;
   font-size: 1.35rem;
   font-weight: 700;
 }
 
-.choice-group__icon {
-  display: inline-grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  font-size: 1.5rem;
-}
-
 .radio-option {
+  position: relative;
   display: flex;
   min-height: 42px;
   align-items: center;
   gap: 12px;
-  padding-left: 42px;
+  padding-left: 4px;
   font-size: 1.1rem;
   cursor: pointer;
 }
 
-.radio-option input,
-.theme-option input {
+.radio-option input {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -257,68 +262,79 @@ input:focus-visible + span {
   border-color: var(--orange);
 }
 
-.theme-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.radio-option input:checked ~ span:last-child {
+  font-weight: 700;
 }
 
-.theme-option {
-  display: block;
-  cursor: pointer;
-}
-
-.theme-card {
-  display: flex;
-  min-height: 145px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 3px solid transparent;
-  padding: 14px;
-  transition:
-    transform 160ms ease,
-    border-color 160ms ease;
-}
-
-.theme-option:hover .theme-card {
-  transform: translateY(-3px);
-}
-
-.theme-option input:checked + .theme-card {
+.radio-option:hover .radio-option__dot {
   border-color: var(--ink);
 }
 
-.theme-card--code {
-  color: #173c3a;
-  background: linear-gradient(135deg, #4dd5bc, #286f62);
+.settings-preview {
+  position: relative;
+  min-height: 340px;
 }
 
-.theme-card--gaming {
-  color: white;
-  background: linear-gradient(135deg, #7056db, #303131);
+.preview {
+  position: absolute;
+  inset: 0;
+  display: none;
+  border-radius: 12px;
+  background: var(--preview-bg);
 }
 
-.theme-card--projects {
-  color: white;
-  background: linear-gradient(135deg, #316dc5, #24345d);
+.preview__tile {
+  position: absolute;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px #0003;
 }
 
-.theme-card--foods {
-  color: #56341e;
-  background: linear-gradient(135deg, #f3b04c, #f3832d);
+.preview__tile--main {
+  top: 12%;
+  left: 14%;
+  width: 44%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--preview-from), var(--preview-to));
 }
 
-.theme-card__art {
-  font-family: "Red Rose", serif;
-  font-size: 2.5rem;
-  font-weight: 700;
+.preview__tile--side {
+  top: 38%;
+  left: 40%;
+  width: 44%;
+  aspect-ratio: 1.1;
+  background: #f2f4f5;
 }
 
-.theme-card__name {
-  font-size: 0.95rem;
-  font-weight: 700;
+.preview--code-vibes {
+  --preview-bg: #303131;
+  --preview-from: #4dd5bc;
+  --preview-to: #286f62;
+}
+
+.preview--gaming {
+  --preview-bg: #2b4f60;
+  --preview-from: #e0237a;
+  --preview-to: #5b1f4a;
+}
+
+.preview--da-projects {
+  --preview-bg: #bfe6f2;
+  --preview-from: #21758f;
+  --preview-to: #1a5f75;
+}
+
+.preview--foods {
+  --preview-bg: #e9e4dc;
+  --preview-from: #f28330;
+  --preview-to: #e26d1e;
+}
+
+.settings-layout:not(:has(input[name="theme"]:checked)) .preview--code-vibes,
+.settings-layout:has(input[value="code-vibes"]:checked) .preview--code-vibes,
+.settings-layout:has(input[value="gaming"]:checked) .preview--gaming,
+.settings-layout:has(input[value="da-projects"]:checked) .preview--da-projects,
+.settings-layout:has(input[value="foods"]:checked) .preview--foods {
+  display: block;
 }
 
 .settings-footer {
@@ -560,14 +576,8 @@ input:focus-visible + span {
     gap: 34px;
   }
 
-  .settings-layout__choices {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
-
-  .theme-group {
-    grid-column: 1;
+  .settings-preview {
+    min-height: 260px;
   }
 
   .game-header {
@@ -610,16 +620,9 @@ input:focus-visible + span {
     padding: 24px 18px;
   }
 
-  .settings-layout__choices {
-    grid-template-columns: 1fr;
-  }
-
-  .theme-grid {
-    gap: 10px;
-  }
-
-  .theme-card {
-    min-height: 120px;
+  .settings-footer {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .game-header {
