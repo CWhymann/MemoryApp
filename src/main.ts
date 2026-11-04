@@ -141,6 +141,7 @@ function renderBoard(): void {
   board.replaceChildren();
   board.dataset.cardCount = String(gameSetup.boardSize);
   board.dataset.theme = gameSetup.theme;
+  getElement<HTMLElement>(".game-screen").dataset.theme = gameSetup.theme;
   gameState.cards.forEach(addCard);
   getElement("#game-theme-heading").textContent = THEME_NAMES[gameSetup.theme];
 }
