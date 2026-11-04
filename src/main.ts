@@ -16,6 +16,8 @@ import type {
   ThemeId,
 } from "./game/types";
 
+const MISMATCH_DELAY_MS = 850;
+
 const gameSetup: GameSetup = {
   playerColor: null,
   boardSize: null,
@@ -248,7 +250,7 @@ function handleMismatch(firstCard: MemoryCard, secondCard: MemoryCard): void {
   const activeGame = gameState;
   mismatchTimer = window.setTimeout(
     () => hideMismatchedCards(activeGame, firstCard, secondCard),
-    850,
+    MISMATCH_DELAY_MS,
   );
 }
 
