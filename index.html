@@ -55,7 +55,7 @@
           </header>
 
           <form id="settings-form" class="settings-layout">
-            <div class="settings-layout__choices">
+            <div class="settings-groups">
               <fieldset class="choice-group">
                 <legend>
                   <svg
@@ -69,9 +69,9 @@
                     <path
                       d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-2-.3-1.1.5-2 1.5-2H18a3 3 0 0 0 3-3c0-5.5-4-11-9-11z"
                     />
-                    <circle cx="7.5" cy="11" r="1" />
-                    <circle cx="10" cy="7" r="1" />
-                    <circle cx="15" cy="7" r="1" />
+                    <circle cx="7.5" cy="11" r="1" fill="currentColor" />
+                    <circle cx="10" cy="7" r="1" fill="currentColor" />
+                    <circle cx="15" cy="7" r="1" fill="currentColor" />
                   </svg>
                   Game themes
                 </legend>
@@ -113,7 +113,7 @@
                   >
                     <circle cx="12" cy="7" r="3.5" />
                     <path
-                      d="M8.5 13h7M9.5 13c-2 1.5-3 3-3 5v1h11v-1c0-2-1-3.5-3-5"
+                      d="M8.5 12.5h7c1.4 0 2.5 1.2 2.5 2.6V21H6v-5.9c0-1.4 1.1-2.6 2.5-2.6z"
                     />
                   </svg>
                   Choose player
@@ -147,20 +147,20 @@
                     stroke-width="2"
                   >
                     <rect
-                      x="4"
-                      y="3"
+                      x="3"
+                      y="4"
                       width="11"
-                      height="15"
+                      height="16"
                       rx="1.5"
-                      transform="rotate(-10 9.5 10.5)"
+                      transform="rotate(-12 8.5 12)"
                     />
                     <rect
                       x="9"
-                      y="5"
+                      y="4"
                       width="11"
-                      height="15"
+                      height="16"
                       rx="1.5"
-                      transform="rotate(8 14.5 12.5)"
+                      transform="rotate(8 14.5 12)"
                     />
                   </svg>
                   Board size
@@ -189,22 +189,52 @@
             <div class="settings-aside">
               <div class="settings-preview" aria-hidden="true">
                 <div class="preview preview--code-vibes">
-                  <span class="preview__tile preview__tile--main"></span>
-                  <span class="preview__tile preview__tile--side"></span>
+                  <div class="preview__bar">
+                    <span class="preview__chip">Blue 0 · Orange 6</span>
+                    <span class="preview__turn">Current player:</span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">&lt;/&gt;</span>
+                  </span>
+                  <span class="preview__tile preview__tile--side">
+                    <span class="preview__logo"></span>
+                  </span>
                 </div>
 
                 <div class="preview preview--gaming">
-                  <span class="preview__tile preview__tile--main"></span>
+                  <div class="preview__bar">
+                    <span class="preview__chip">Blue 0 · Orange 6</span>
+                    <span class="preview__turn">Current player:</span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">✦</span>
+                  </span>
                   <span class="preview__tile preview__tile--side"></span>
                 </div>
 
                 <div class="preview preview--da-projects">
-                  <span class="preview__tile preview__tile--main"></span>
+                  <div class="preview__bar">
+                    <span class="preview__chip">Blue 0 · Orange 6</span>
+                    <span class="preview__turn">Current player:</span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">DA</span>
+                  </span>
                   <span class="preview__tile preview__tile--side"></span>
                 </div>
 
                 <div class="preview preview--foods">
-                  <span class="preview__tile preview__tile--main"></span>
+                  <div class="preview__bar">
+                    <span class="preview__chip">Blue 0 · Orange 6</span>
+                    <span class="preview__turn">Current player:</span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">✿</span>
+                  </span>
                   <span class="preview__tile preview__tile--side"></span>
                 </div>
               </div>
@@ -219,7 +249,7 @@
                 </p>
 
                 <button
-                  class="primary-button primary-button--small"
+                  class="primary-button primary-button--small settings-start"
                   id="start-game"
                   type="button"
                   disabled
