@@ -17,6 +17,7 @@ import type {
 } from "./game/types";
 
 const MISMATCH_DELAY_MS = 850;
+const BOARD_SIZES = [16, 24, 36] as const;
 
 const gameSetup: GameSetup = {
   playerColor: null,
@@ -49,8 +50,8 @@ function isPlayerColor(value: string): value is PlayerColor {
 }
 
 /** Checks whether a number is a supported board size. */
-function isBoardSize(value: number): value is 16 | 24 | 36 {
-  return value === 16 || value === 24 || value === 36;
+function isBoardSize(value: number): value is (typeof BOARD_SIZES)[number] {
+  return (BOARD_SIZES as readonly number[]).includes(value);
 }
 
 /** Checks whether a string is a supported theme. */
@@ -272,13 +273,14 @@ function hideMismatchedCards(
   updateScoreboard();
 }
 
-/** Displays the final scores and winner message. */
+/** Displays the final scores and the winner or draw message. */
 function finishGame(): void {
   if (!gameState) return;
 
   gameState.status = "finished";
   const winner = getWinner(gameState.players);
-  const message = winner === "tie" ? "It’s a draw!" : `${winner} player wins!`;
+  const message =
+    winner === "tie" ? "It’s a draw!" : `The winner is ${winner} player`;
 
   getElement("#winner-message").textContent = message;
   getElement("#result-blue-score").textContent = String(
