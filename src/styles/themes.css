@@ -1,0 +1,35 @@
+[data-theme="code-vibes"] {
+  --theme-page: #303131;
+  --theme-header: #3c4745;
+  --theme-ink: #ffffff;
+  --theme-card-from: #4dd5bc;
+  --theme-card-to: #286f62;
+  --theme-accent: #4dd5bc;
+}
+
+[data-theme="gaming"] {
+  --theme-page: #2b4f60;
+  --theme-header: #525e77;
+  --theme-ink: #ffffff;
+  --theme-card-from: #e0237a;
+  --theme-card-to: #5b1f4a;
+  --theme-accent: #1fa0e8;
+}
+
+[data-theme="da-projects"] {
+  --theme-page: #ffffff;
+  --theme-header: #eef3f5;
+  --theme-ink: #1f5f75;
+  --theme-card-from: #21758f;
+  --theme-card-to: #1a5f75;
+  --theme-accent: #0c7fc5;
+}
+
+[data-theme="foods"] {
+  --theme-page: #e9e4dc;
+  --theme-header: #f2e9de;
+  --theme-ink: #7a4418;
+  --theme-card-from: #f28330;
+  --theme-card-to: #e26d1e;
+  --theme-accent: #f28330;
+}
