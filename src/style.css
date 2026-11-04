@@ -154,7 +154,7 @@ input:focus-visible + span {
   display: grid;
   align-items: center;
   justify-items: center;
-  padding: 48px 28px;
+  padding: 48px max(28px, calc((100% - 1100px) / 2));
   background: white;
 }
 
@@ -339,7 +339,7 @@ input:focus-visible + span {
 }
 
 .game-screen {
-  padding: 28px;
+  padding: 28px max(28px, calc((100% - 1100px) / 2));
   color: var(--theme-ink);
   background: var(--theme-page);
 }
