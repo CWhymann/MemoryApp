@@ -12,6 +12,9 @@
   --blue: #097fc5;
   --orange: #f3832d;
   --muted: #777b7b;
+  --magenta: #e5289c;
+  --teal: #2ec4a6;
+  --navy: #1b2c8a;
 }
 
 * {
@@ -41,6 +44,15 @@ input:focus-visible + span {
 
 [hidden] {
   display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .screen {
@@ -151,8 +163,6 @@ input:focus-visible + span {
 }
 
 .settings-screen {
-  display: grid;
-  align-items: start;
   padding: 48px max(28px, calc((100% - 1100px) / 2));
   background: white;
 }
@@ -164,8 +174,8 @@ input:focus-visible + span {
 .page-heading {
   position: relative;
   display: inline-block;
-  margin-bottom: 56px;
-  padding-bottom: 14px;
+  margin-bottom: 64px;
+  padding-bottom: 16px;
 }
 
 .page-heading h1 {
@@ -179,7 +189,7 @@ input:focus-visible + span {
   position: absolute;
   right: 0;
   bottom: 0;
-  left: -14px;
+  left: -18px;
   height: 4px;
   background: var(--yellow);
 }
@@ -187,8 +197,8 @@ input:focus-visible + span {
 .page-heading::before {
   content: "";
   position: absolute;
-  bottom: -5px;
-  left: -18px;
+  bottom: -4px;
+  left: -22px;
   width: 12px;
   height: 12px;
   background: var(--yellow);
@@ -197,15 +207,15 @@ input:focus-visible + span {
 
 .settings-layout {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(360px, 1.4fr);
-  gap: 48px;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr);
+  gap: 56px;
   align-items: start;
 }
 
 .settings-layout__choices {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 44px;
 }
 
 .choice-group {
@@ -216,18 +226,39 @@ input:focus-visible + span {
 }
 
 .choice-group legend {
-  margin-bottom: 16px;
-  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: 1.5rem;
   font-weight: 700;
+}
+
+.choice-group__icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+}
+
+.choice-group__icon--themes {
+  color: var(--magenta);
+}
+
+.choice-group__icon--player {
+  color: var(--teal);
+}
+
+.choice-group__icon--board {
+  color: var(--navy);
 }
 
 .radio-option {
   position: relative;
   display: flex;
-  min-height: 42px;
+  min-height: 40px;
   align-items: center;
-  gap: 12px;
-  padding-left: 4px;
+  gap: 14px;
+  padding-left: 12px;
   font-size: 1.1rem;
   cursor: pointer;
 }
@@ -243,15 +274,15 @@ input:focus-visible + span {
 }
 
 .radio-option__dot {
-  width: 20px;
-  height: 20px;
-  flex: 0 0 20px;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
   border: 2px solid #8e9292;
   border-radius: 50%;
 }
 
 .radio-option input:checked + .radio-option__dot {
-  border: 6px solid var(--ink);
+  border: 7px solid var(--ink);
 }
 
 .radio-option input:checked + .radio-option__dot--blue {
@@ -270,16 +301,24 @@ input:focus-visible + span {
   border-color: var(--ink);
 }
 
+.settings-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .settings-preview {
   position: relative;
-  min-height: 340px;
+  height: 330px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #303131;
 }
 
 .preview {
   position: absolute;
   inset: 0;
   display: none;
-  border-radius: 12px;
   background: var(--preview-bg);
 }
 
@@ -290,43 +329,49 @@ input:focus-visible + span {
 }
 
 .preview__tile--main {
-  top: 12%;
-  left: 14%;
-  width: 44%;
+  top: 22%;
+  left: 27%;
+  width: 40%;
   aspect-ratio: 1;
   background: linear-gradient(135deg, var(--preview-from), var(--preview-to));
+  transform: rotate(-4deg);
 }
 
 .preview__tile--side {
-  top: 38%;
-  left: 40%;
-  width: 44%;
+  top: 40%;
+  left: 47%;
+  width: 36%;
   aspect-ratio: 1.1;
-  background: #f2f4f5;
+  background: var(--preview-side);
+  transform: rotate(4deg);
 }
 
 .preview--code-vibes {
   --preview-bg: #303131;
   --preview-from: #4dd5bc;
   --preview-to: #286f62;
+  --preview-side: #f2f4f5;
 }
 
 .preview--gaming {
-  --preview-bg: #2b4f60;
+  --preview-bg: linear-gradient(135deg, #2b6f94, #2b4f60);
   --preview-from: #e0237a;
-  --preview-to: #5b1f4a;
+  --preview-to: #6b2155;
+  --preview-side: #f5f2f4;
 }
 
 .preview--da-projects {
   --preview-bg: #bfe6f2;
-  --preview-from: #21758f;
-  --preview-to: #1a5f75;
+  --preview-from: #24344f;
+  --preview-to: #1d2b44;
+  --preview-side: #f1f4f5;
 }
 
 .preview--foods {
   --preview-bg: #e9e4dc;
   --preview-from: #f28330;
   --preview-to: #e26d1e;
+  --preview-side: #fbe9dc;
 }
 
 .settings-layout:not(:has(input[name="theme"]:checked)) .preview--code-vibes,
@@ -339,19 +384,37 @@ input:focus-visible + span {
 
 .settings-footer {
   display: flex;
-  grid-column: 1 / -1;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  margin-top: 8px;
-  border-top: 1px solid #dedede;
-  padding-top: 22px;
+  gap: 16px;
+  padding: 18px 20px;
+  background: #f4f4f4;
 }
 
-.settings-footer p {
+.settings-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
   margin: 0;
-  color: var(--muted);
-  line-height: 1.5;
+  font-size: 1.1rem;
+}
+
+.settings-steps__slash {
+  width: 4px;
+  height: 26px;
+  background: var(--yellow);
+  transform: rotate(20deg);
+}
+
+.settings-footer .primary-button--small {
+  min-width: 150px;
+  min-height: 56px;
+  background: var(--yellow);
+}
+
+.settings-footer .primary-button--small svg {
+  flex: 0 0 22px;
 }
 
 .game-screen {
@@ -577,7 +640,7 @@ input:focus-visible + span {
   }
 
   .settings-preview {
-    min-height: 260px;
+    height: 260px;
   }
 
   .game-header {

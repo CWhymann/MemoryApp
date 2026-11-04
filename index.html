@@ -57,7 +57,24 @@
           <form id="settings-form" class="settings-layout">
             <div class="settings-layout__choices">
               <fieldset class="choice-group">
-                <legend>Game themes</legend>
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--themes"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-2-.3-1.1.5-2 1.5-2H18a3 3 0 0 0 3-3c0-5.5-4-11-9-11z"
+                    />
+                    <circle cx="7.5" cy="11" r="1" />
+                    <circle cx="10" cy="7" r="1" />
+                    <circle cx="15" cy="7" r="1" />
+                  </svg>
+                  Game themes
+                </legend>
 
                 <label class="radio-option">
                   <input type="radio" name="theme" value="code-vibes" />
@@ -85,7 +102,22 @@
               </fieldset>
 
               <fieldset class="choice-group">
-                <legend>Choose player</legend>
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--player"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="7" r="3.5" />
+                    <path
+                      d="M8.5 13h7M9.5 13c-2 1.5-3 3-3 5v1h11v-1c0-2-1-3.5-3-5"
+                    />
+                  </svg>
+                  Choose player
+                </legend>
 
                 <label class="radio-option">
                   <input type="radio" name="playerColor" value="blue" />
@@ -105,7 +137,34 @@
               </fieldset>
 
               <fieldset class="choice-group">
-                <legend>Board size</legend>
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--board"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect
+                      x="4"
+                      y="3"
+                      width="11"
+                      height="15"
+                      rx="1.5"
+                      transform="rotate(-10 9.5 10.5)"
+                    />
+                    <rect
+                      x="9"
+                      y="5"
+                      width="11"
+                      height="15"
+                      rx="1.5"
+                      transform="rotate(8 14.5 12.5)"
+                    />
+                  </svg>
+                  Board size
+                </legend>
 
                 <label class="radio-option">
                   <input type="radio" name="boardSize" value="16" />
@@ -127,41 +186,68 @@
               </fieldset>
             </div>
 
-            <div class="settings-preview" aria-hidden="true">
-              <div class="preview preview--code-vibes">
-                <span class="preview__tile preview__tile--main"></span>
-                <span class="preview__tile preview__tile--side"></span>
+            <div class="settings-aside">
+              <div class="settings-preview" aria-hidden="true">
+                <div class="preview preview--code-vibes">
+                  <span class="preview__tile preview__tile--main"></span>
+                  <span class="preview__tile preview__tile--side"></span>
+                </div>
+
+                <div class="preview preview--gaming">
+                  <span class="preview__tile preview__tile--main"></span>
+                  <span class="preview__tile preview__tile--side"></span>
+                </div>
+
+                <div class="preview preview--da-projects">
+                  <span class="preview__tile preview__tile--main"></span>
+                  <span class="preview__tile preview__tile--side"></span>
+                </div>
+
+                <div class="preview preview--foods">
+                  <span class="preview__tile preview__tile--main"></span>
+                  <span class="preview__tile preview__tile--side"></span>
+                </div>
               </div>
 
-              <div class="preview preview--gaming">
-                <span class="preview__tile preview__tile--main"></span>
-                <span class="preview__tile preview__tile--side"></span>
+              <div class="settings-footer">
+                <p class="settings-steps">
+                  <span>Game theme</span>
+                  <span class="settings-steps__slash" aria-hidden="true"></span>
+                  <span>Player</span>
+                  <span class="settings-steps__slash" aria-hidden="true"></span>
+                  <span>Board size</span>
+                </p>
+
+                <button
+                  class="primary-button primary-button--small"
+                  id="start-game"
+                  type="button"
+                  disabled
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M10 9l5 3-5 3z" fill="currentColor" />
+                  </svg>
+                  <span>Start</span>
+                  <span aria-hidden="true">→</span>
+                </button>
               </div>
 
-              <div class="preview preview--da-projects">
-                <span class="preview__tile preview__tile--main"></span>
-                <span class="preview__tile preview__tile--side"></span>
-              </div>
-
-              <div class="preview preview--foods">
-                <span class="preview__tile preview__tile--main"></span>
-                <span class="preview__tile preview__tile--side"></span>
-              </div>
-            </div>
-
-            <div class="settings-footer">
-              <p id="selection-summary">
+              <p
+                id="selection-summary"
+                class="visually-hidden"
+                aria-live="polite"
+              >
                 Choose a player, board size and theme to continue.
               </p>
-              <button
-                class="primary-button primary-button--small"
-                id="start-game"
-                type="button"
-                disabled
-              >
-                <span>Start</span>
-                <span aria-hidden="true">→</span>
-              </button>
             </div>
           </form>
         </div>
