@@ -320,15 +320,13 @@ input:focus-visible + span {
   margin-left: 86px;
   overflow: hidden;
   border-radius: 14px;
-  background: var(--theme-page, #f4f4f4);
+  background: linear-gradient(160deg, #303131 55%, #4f4f4f);
 }
 
 .preview {
   position: absolute;
   inset: 0;
   display: none;
-  background: var(--theme-page);
-  color: var(--theme-ink);
 }
 
 .preview__bar {
@@ -343,45 +341,25 @@ input:focus-visible + span {
   gap: 10px;
   padding: 0 12px;
   border-radius: 3px;
-  background: var(--theme-header);
-  color: var(--theme-ink);
+  background: #3c4745;
+  color: white;
   font-size: 0.7rem;
 }
 
-.preview__scores {
-  display: flex;
-  gap: 8px;
+.preview__chip {
+  color: #2fa2f0;
   font-weight: 700;
 }
 
-.preview__score--orange {
-  color: var(--orange);
-}
-
-.preview__score--blue {
-  color: var(--blue);
-}
-
-.preview__turn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.preview__turn,
+.preview__exit {
+  color: white;
   font-size: 0.65rem;
-}
-
-.preview__badge {
-  width: 10px;
-  height: 12px;
-  border-radius: 2px;
-  background: var(--blue);
 }
 
 .preview__exit {
   padding: 3px 6px;
-  border: 1px solid var(--theme-accent);
-  color: var(--theme-accent);
-  font-size: 0.65rem;
-  font-weight: 700;
+  border: 1px solid #4dd5bc;
 }
 
 .preview__tile {
@@ -395,11 +373,7 @@ input:focus-visible + span {
   left: 62px;
   width: 196px;
   height: 196px;
-  background: linear-gradient(
-    135deg,
-    var(--theme-card-from),
-    var(--theme-card-to)
-  );
+  background: linear-gradient(135deg, var(--preview-from), var(--preview-to));
   transform: rotate(-3deg);
   display: grid;
   place-items: center;
@@ -420,27 +394,37 @@ input:focus-visible + span {
   transform: rotate(4deg);
   display: grid;
   place-items: center;
-  overflow: hidden;
 }
 
-.preview__tile--side img {
-  width: 70%;
-  height: auto;
+.preview__logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 14px;
+  background: #e8473a;
+  transform: rotate(45deg);
 }
 
 .preview--code-vibes {
-  --preview-side: #f1f3f3;
+  --preview-from: #4dd5bc;
+  --preview-to: #286f62;
+  --preview-side: #eef2f2;
 }
 
 .preview--gaming {
+  --preview-from: #e0237a;
+  --preview-to: #5b1f4a;
   --preview-side: #f5f2f4;
 }
 
 .preview--da-projects {
+  --preview-from: #2d6fc2;
+  --preview-to: #1f3a6e;
   --preview-side: #f1f4f5;
 }
 
 .preview--foods {
+  --preview-from: #f3b04c;
+  --preview-to: #f3832d;
   --preview-side: #f9e8d8;
 }
 
@@ -790,14 +774,5 @@ input:focus-visible + span {
 
   .secondary-button {
     justify-self: start;
-  }
-
-  .result-panel__score {
-    margin: 0;
-    font-size: 20px;
-  }
-
-  .result-panel__points {
-    font-weight: 700;
   }
 }

@@ -1,41 +1,423 @@
-<section class="screen result-screen" data-screen="result" hidden>
-  <div class="result-panel" data-outcome="winner" hidden>
-    <p class="result-panel__eyebrow">The winner is</p>
-    <h1 id="winner-name" class="result-panel__name"></h1>
-    <span class="result-panel__pawn" aria-hidden="true">♟</span>
-    <p class="result-panel__score" aria-live="polite">
-      Blue <strong class="result-panel__points" data-score="blue">0</strong> ·
-      Orange <strong class="result-panel__points" data-score="orange">0</strong>
-    </p>
-    <button
-      class="primary-button primary-button--small"
-      type="button"
-      data-action="play-again"
-    >
-      New round
-    </button>
-    <button class="secondary-button" type="button" data-action="back-home">
-      Home
-    </button>
-  </div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#303131" />
+    <meta
+      name="description"
+      content="A two-player memory game with custom themes and board sizes."
+    />
+    <title>Memory</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Delius+Unicase:wght@700&family=Klee+One:wght@400;600&family=Red+Rose:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main id="app">
+      <section class="screen home-screen" data-screen="home">
+        <div class="home-screen__content">
+          <div class="home-screen__copy">
+            <p class="home-screen__eyebrow">It’s play time.</p>
+            <h1>Ready to play?</h1>
+          </div>
 
-  <div class="result-panel" data-outcome="draw" hidden>
-    <p class="result-panel__eyebrow">It’s a</p>
-    <h1 class="result-panel__name">DRAW</h1>
-    <span class="result-panel__pawn" aria-hidden="true">⚖</span>
-    <p class="result-panel__score" aria-live="polite">
-      Blue <strong class="result-panel__points" data-score="blue">0</strong> ·
-      Orange <strong class="result-panel__points" data-score="orange">0</strong>
-    </p>
-    <button
-      class="primary-button primary-button--small"
-      type="button"
-      data-action="play-again"
+          <button
+            class="primary-button home-screen__button"
+            type="button"
+            data-action="open-settings"
+          >
+            <img src="/assets/icons/controller-button.svg" alt="" />
+            <span>Play</span>
+            <img
+              class="primary-button__arrow"
+              src="/assets/icons/arrow.svg"
+              alt=""
+            />
+          </button>
+        </div>
+
+        <img
+          class="home-screen__controller"
+          src="/assets/icons/controller-decoration.svg"
+          alt=""
+        />
+      </section>
+
+      <section class="screen settings-screen" data-screen="settings" hidden>
+        <div class="settings-screen__content">
+          <header class="page-heading">
+            <h1>Settings</h1>
+          </header>
+
+          <form id="settings-form" class="settings-layout">
+            <div class="settings-groups">
+              <fieldset class="choice-group">
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--themes"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-2-.3-1.1.5-2 1.5-2H18a3 3 0 0 0 3-3c0-5.5-4-11-9-11z"
+                    />
+                    <circle cx="7.5" cy="11" r="1" fill="currentColor" />
+                    <circle cx="10" cy="7" r="1" fill="currentColor" />
+                    <circle cx="15" cy="7" r="1" fill="currentColor" />
+                  </svg>
+                  Game themes
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="code-vibes" />
+                  <span class="radio-option__dot"></span>
+                  <span>Code vibes theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="gaming" />
+                  <span class="radio-option__dot"></span>
+                  <span>Gaming theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="da-projects" />
+                  <span class="radio-option__dot"></span>
+                  <span>DA Projects theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="foods" />
+                  <span class="radio-option__dot"></span>
+                  <span>Foods theme</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="choice-group">
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--player"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="7" r="3.5" />
+                    <path
+                      d="M8.5 12.5h7c1.4 0 2.5 1.2 2.5 2.6V21H6v-5.9c0-1.4 1.1-2.6 2.5-2.6z"
+                    />
+                  </svg>
+                  Choose player
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="playerColor" value="blue" />
+                  <span
+                    class="radio-option__dot radio-option__dot--blue"
+                  ></span>
+                  <span>Blue</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="playerColor" value="orange" />
+                  <span
+                    class="radio-option__dot radio-option__dot--orange"
+                  ></span>
+                  <span>Orange</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="choice-group">
+                <legend>
+                  <svg
+                    class="choice-group__icon choice-group__icon--board"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect
+                      x="3"
+                      y="4"
+                      width="11"
+                      height="16"
+                      rx="1.5"
+                      transform="rotate(-12 8.5 12)"
+                    />
+                    <rect
+                      x="9"
+                      y="4"
+                      width="11"
+                      height="16"
+                      rx="1.5"
+                      transform="rotate(8 14.5 12)"
+                    />
+                  </svg>
+                  Board size
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="16" />
+                  <span class="radio-option__dot"></span>
+                  <span>16 cards</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="24" />
+                  <span class="radio-option__dot"></span>
+                  <span>24 cards</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="boardSize" value="36" />
+                  <span class="radio-option__dot"></span>
+                  <span>36 cards</span>
+                </label>
+              </fieldset>
+            </div>
+
+            <div class="settings-aside">
+              <div class="settings-preview" aria-hidden="true">
+                <div
+                  class="preview preview--code-vibes"
+                  data-theme="code-vibes"
+                >
+                  <div class="preview__bar">
+                    <span class="preview__scores">
+                      <span class="preview__score preview__score--orange"
+                        >6</span
+                      >
+                      <span class="preview__score preview__score--blue">2</span>
+                    </span>
+                    <span class="preview__turn">
+                      Current player:
+                      <span class="preview__badge preview__badge--blue"></span>
+                    </span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">&lt;/&gt;</span>
+                  </span>
+                  <span class="preview__tile preview__tile--side">
+                    <img src="/assets/themes/code-vibes/git.svg" alt="" />
+                  </span>
+                </div>
+
+                <div class="preview preview--gaming" data-theme="gaming">
+                  <div class="preview__bar">
+                    <span class="preview__scores">
+                      <span class="preview__score preview__score--orange"
+                        >6</span
+                      >
+                      <span class="preview__score preview__score--blue">2</span>
+                    </span>
+                    <span class="preview__turn">
+                      Current player:
+                      <span class="preview__badge preview__badge--blue"></span>
+                    </span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main"></span>
+                  <span class="preview__tile preview__tile--side">
+                    <img src="/assets/themes/gaming/wuerfel.svg" alt="" />
+                  </span>
+                </div>
+
+                <div
+                  class="preview preview--da-projects"
+                  data-theme="da-projects"
+                >
+                  <div class="preview__bar">
+                    <span class="preview__scores">
+                      <span class="preview__score preview__score--orange"
+                        >6</span
+                      >
+                      <span class="preview__score preview__score--blue">2</span>
+                    </span>
+                    <span class="preview__turn">
+                      Current player:
+                      <span class="preview__badge preview__badge--blue"></span>
+                    </span>
+                    <span class="preview__exit">Exit game</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">&lt;/&gt;</span>
+                  </span>
+                  <span class="preview__tile preview__tile--side">
+                    <img src="/assets/themes/da-projects/haifisch.svg" alt="" />
+                  </span>
+                </div>
+
+                <div class="preview preview--foods" data-theme="foods">
+                  <div class="preview__bar">
+                    <span class="preview__scores">
+                      <span class="preview__score preview__score--orange"
+                        >6</span
+                      >
+                      <span class="preview__score preview__score--blue">2</span>
+                    </span>
+                    <span class="preview__turn">
+                      Current player:
+                      <span class="preview__badge preview__badge--blue"></span>
+                    </span>
+                    <span class="preview__exit">EXIT GAME</span>
+                  </div>
+                  <span class="preview__tile preview__tile--main">
+                    <span class="preview__icon">&lt;/&gt;</span>
+                  </span>
+                  <span class="preview__tile preview__tile--side">
+                    <img src="/assets/themes/foods/doener.svg" alt="" />
+                  </span>
+                </div>
+              </div>
+
+              <div class="settings-footer">
+                <p class="settings-steps">
+                  <span>Game theme</span>
+                  <span class="settings-steps__slash" aria-hidden="true"></span>
+                  <span>Player</span>
+                  <span class="settings-steps__slash" aria-hidden="true"></span>
+                  <span>Board size</span>
+                </p>
+
+                <button
+                  class="primary-button primary-button--small settings-start"
+                  id="start-game"
+                  type="button"
+                  disabled
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M10 9l5 3-5 3z" fill="currentColor" />
+                  </svg>
+                  <span>Start</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+
+              <p
+                id="selection-summary"
+                class="visually-hidden"
+                aria-live="polite"
+              >
+                Choose a player, board size and theme to continue.
+              </p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="screen game-screen" data-screen="game" hidden>
+        <header class="game-header">
+          <div class="scoreboard" aria-label="Player scores">
+            <p class="scoreboard__player scoreboard__player--blue">
+              Blue <strong id="blue-score">0</strong>
+            </p>
+            <p class="scoreboard__player scoreboard__player--orange">
+              Orange <strong id="orange-score">0</strong>
+            </p>
+          </div>
+
+          <p class="current-player">
+            Current player
+            <strong id="current-player">Blue</strong>
+          </p>
+
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="exit-game"
+          >
+            Exit game
+          </button>
+        </header>
+
+        <h1 id="game-theme-heading" class="game-title">Memory</h1>
+        <div
+          id="game-board"
+          class="memory-board"
+          aria-label="Memory cards"
+        ></div>
+      </section>
+
+      <section class="screen result-screen" data-screen="result" hidden>
+        <div class="result-panel" data-outcome="winner" hidden>
+          <p class="result-panel__eyebrow">The winner is</p>
+          <h1 id="winner-name" class="result-panel__name"></h1>
+          <span class="result-panel__pawn" aria-hidden="true">♟</span>
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="back-home"
+          >
+            Home
+          </button>
+        </div>
+
+        <div class="result-panel" data-outcome="draw" hidden>
+          <p class="result-panel__eyebrow">It’s a</p>
+          <h1 class="result-panel__name">DRAW</h1>
+          <span class="result-panel__pawn" aria-hidden="true">⚖</span>
+          <button
+            class="secondary-button"
+            type="button"
+            data-action="back-home"
+          >
+            Home
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <template id="memory-card-template">
+      <button class="memory-card" type="button" aria-label="Hidden card">
+        <span class="memory-card__back" aria-hidden="true">✦</span>
+        <span class="memory-card__symbol" aria-hidden="true"></span>
+      </button>
+    </template>
+
+    <dialog
+      id="exit-dialog"
+      class="exit-dialog"
+      aria-labelledby="exit-dialog-title"
     >
-      New round
-    </button>
-    <button class="secondary-button" type="button" data-action="back-home">
-      Home
-    </button>
-  </div>
-</section>
+      <h2 id="exit-dialog-title">Are you sure you want to quit the game?</h2>
+      <div class="exit-dialog__actions">
+        <button
+          class="secondary-button"
+          type="button"
+          data-action="cancel-exit"
+        >
+          Back to game
+        </button>
+        <button
+          class="primary-button primary-button--small"
+          type="button"
+          data-action="confirm-exit"
+        >
+          Exit game
+        </button>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
