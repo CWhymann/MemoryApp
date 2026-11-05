@@ -33,3 +33,102 @@
   --theme-card-to: #e26d1e;
   --theme-accent: #f28330;
 }
+[data-theme="code-vibes"] {
+  --theme-page: #303131;
+  --theme-header: #3c4745;
+  --theme-ink: #ffffff;
+  --theme-card-from: #4dd5bc;
+  --theme-card-to: #286f62;
+  --theme-accent: #4dd5bc;
+}
+
+[data-theme="gaming"] {
+  --theme-page: linear-gradient(160deg, #1f7fa3, #2b4f60);
+  --theme-header: #525e77;
+  --theme-ink: #ffffff;
+  --theme-card-from: #e0237a;
+  --theme-card-to: #5b1f4a;
+  --theme-accent: #1fa0e8;
+}
+
+[data-theme="da-projects"] {
+  --theme-page: #ffffff;
+  --theme-header: #eef3f5;
+  --theme-ink: #1f5f75;
+  --theme-card-from: #21758f;
+  --theme-card-to: #1a5f75;
+  --theme-accent: #0c7fc5;
+}
+
+[data-theme="foods"] {
+  --theme-page: #e9e4dc;
+  --theme-header: #f2e9de;
+  --theme-ink: #7a4418;
+  --theme-card-from: #f28330;
+  --theme-card-to: #e26d1e;
+  --theme-accent: #f28330;
+}
+
+.preview--code-vibes .preview__tile--main {
+  left: 62px;
+  top: 127px;
+  width: 196px;
+  height: 196px;
+  transform: rotate(-3deg);
+}
+
+.preview--code-vibes .preview__tile--side {
+  left: 188px;
+  top: 155px;
+  width: 211px;
+  height: 208px;
+  transform: rotate(4deg);
+}
+
+.preview--gaming .preview__tile--main {
+  left: 58px;
+  top: 109px;
+  width: 172px;
+  height: 236px;
+  transform: rotate(-6deg);
+}
+
+.preview--gaming .preview__tile--side {
+  left: 218px;
+  top: 130px;
+  width: 187px;
+  height: 231px;
+  transform: rotate(5deg);
+}
+
+.preview--da-projects .preview__tile--main {
+  left: 66px;
+  top: 125px;
+  width: 180px;
+  height: 150px;
+  transform: none;
+}
+
+.preview--da-projects .preview__tile--side {
+  left: 224px;
+  top: 193px;
+  width: 180px;
+  height: 150px;
+  transform: none;
+}
+
+.preview--foods .preview__tile--main {
+  left: 78px;
+  top: 106px;
+  width: 170px;
+  height: 170px;
+  transform: none;
+}
+
+.preview--foods .preview__tile--side {
+  left: 212px;
+  top: 191px;
+  width: 170px;
+  height: 170px;
+  transform: none;
+}
