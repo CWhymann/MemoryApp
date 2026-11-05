@@ -10,6 +10,7 @@ import {
 import { THEME_CARDS, THEME_NAMES } from "./game/theme-data";
 import type {
   GameSetup,
+  Player,
   GameState,
   MemoryCard,
   PlayerColor,
@@ -281,21 +282,41 @@ function showOutcome(outcome: string): void {
   });
 }
 
+/** Shows both final scores on the result screen. */
+function renderFinalScore(players: [Player, Player]): void {
+  players.forEach((player) => {
+    document
+      .querySelectorAll<HTMLElement>(`[data-score="${player.color}"]`)
+      .forEach((element) => {
+        element.textContent = String(player.score);
+      });
+  });
+}
+
+/** Capitalizes the first letter of a player color. */
+function capitalize(color: PlayerColor): string {
+  return color.charAt(0).toUpperCase() + color.slice(1);
+}
+
+/** Shows the winner panel, or the draw panel when the scores are equal. */
+function showWinnerOrDraw(winner: PlayerColor | "tie"): void {
+  if (winner === "tie") {
+    showOutcome("draw");
+    return;
+  }
+
+  getElement("#winner-name").textContent = `${capitalize(winner)} Player`;
+  showOutcome("winner");
+}
+
 /** Displays the winner or draw screen after the last pair. */
 function finishGame(): void {
   if (!gameState || !gameSetup.theme) return;
 
   gameState.status = "finished";
   getElement<HTMLElement>(".result-screen").dataset.theme = gameSetup.theme;
-  const winner = getWinner(gameState.players);
-
-  if (winner === "tie") {
-    showOutcome("draw");
-  } else {
-    getElement("#winner-name").textContent = `${winner} player`;
-    showOutcome("winner");
-  }
-
+  renderFinalScore(gameState.players);
+  showWinnerOrDraw(getWinner(gameState.players));
   showScreen("result");
 }
 

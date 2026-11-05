@@ -791,4 +791,13 @@ input:focus-visible + span {
   .secondary-button {
     justify-self: start;
   }
+
+  .result-panel__score {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .result-panel__points {
+    font-weight: 700;
+  }
 }
