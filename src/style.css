@@ -320,13 +320,15 @@ input:focus-visible + span {
   margin-left: 86px;
   overflow: hidden;
   border-radius: 14px;
-  background: linear-gradient(160deg, #303131 55%, #4f4f4f);
+  background: var(--theme-page, #f4f4f4);
 }
 
 .preview {
   position: absolute;
   inset: 0;
   display: none;
+  background: var(--theme-page);
+  color: var(--theme-ink);
 }
 
 .preview__bar {
@@ -341,25 +343,45 @@ input:focus-visible + span {
   gap: 10px;
   padding: 0 12px;
   border-radius: 3px;
-  background: #3c4745;
-  color: white;
+  background: var(--theme-header);
+  color: var(--theme-ink);
   font-size: 0.7rem;
 }
 
-.preview__chip {
-  color: #2fa2f0;
+.preview__scores {
+  display: flex;
+  gap: 8px;
   font-weight: 700;
 }
 
-.preview__turn,
-.preview__exit {
-  color: white;
+.preview__score--orange {
+  color: var(--orange);
+}
+
+.preview__score--blue {
+  color: var(--blue);
+}
+
+.preview__turn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.65rem;
+}
+
+.preview__badge {
+  width: 10px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--blue);
 }
 
 .preview__exit {
   padding: 3px 6px;
-  border: 1px solid #4dd5bc;
+  border: 1px solid var(--theme-accent);
+  color: var(--theme-accent);
+  font-size: 0.65rem;
+  font-weight: 700;
 }
 
 .preview__tile {
@@ -373,7 +395,11 @@ input:focus-visible + span {
   left: 62px;
   width: 196px;
   height: 196px;
-  background: linear-gradient(135deg, var(--preview-from), var(--preview-to));
+  background: linear-gradient(
+    135deg,
+    var(--theme-card-from),
+    var(--theme-card-to)
+  );
   transform: rotate(-3deg);
   display: grid;
   place-items: center;
@@ -394,37 +420,27 @@ input:focus-visible + span {
   transform: rotate(4deg);
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
 
-.preview__logo {
-  width: 88px;
-  height: 88px;
-  border-radius: 14px;
-  background: #e8473a;
-  transform: rotate(45deg);
+.preview__tile--side img {
+  width: 70%;
+  height: auto;
 }
 
 .preview--code-vibes {
-  --preview-from: #4dd5bc;
-  --preview-to: #286f62;
-  --preview-side: #eef2f2;
+  --preview-side: #f1f3f3;
 }
 
 .preview--gaming {
-  --preview-from: #e0237a;
-  --preview-to: #5b1f4a;
   --preview-side: #f5f2f4;
 }
 
 .preview--da-projects {
-  --preview-from: #2d6fc2;
-  --preview-to: #1f3a6e;
   --preview-side: #f1f4f5;
 }
 
 .preview--foods {
-  --preview-from: #f3b04c;
-  --preview-to: #f3832d;
   --preview-side: #f9e8d8;
 }
 
