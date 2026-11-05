@@ -229,19 +229,18 @@ input:focus-visible + span {
 }
 
 .choice-group legend {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 18px;
   font-size: 1.6rem;
   font-weight: 700;
 }
 
 .choice-group__icon {
-  position: absolute;
-  top: 50%;
-  left: -44px;
   width: 26px;
   height: 26px;
-  transform: translateY(-50%);
+  flex: 0 0 26px;
 }
 
 .choice-group__icon--themes {
@@ -706,6 +705,34 @@ input:focus-visible + span {
   .home-screen__button {
     top: 64%;
     font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  .radio-option > span:last-child::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 12px;
+    margin-left: 0;
+    background: #f0ea6e;
+    clip-path: polygon(
+      0 42%,
+      75% 42%,
+      75% 0,
+      100% 50%,
+      75% 100%,
+      75% 58%,
+      0 58%
+    );
+    opacity: 0;
+    transition:
+      width 300ms ease,
+      margin-left 300ms ease,
+      opacity 300ms ease;
+  }
+
+  .radio-option input:checked ~ span:last-child::after {
+    width: 41px;
+    margin-left: 16px;
+    opacity: 1;
   }
 
   .home-screen__controller {
