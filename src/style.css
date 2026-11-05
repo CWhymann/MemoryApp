@@ -229,18 +229,19 @@ input:focus-visible + span {
 }
 
 .choice-group legend {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  position: relative;
   margin-bottom: 18px;
   font-size: 1.6rem;
   font-weight: 700;
 }
 
 .choice-group__icon {
+  position: absolute;
+  top: 50%;
+  left: -44px;
   width: 26px;
   height: 26px;
-  flex: 0 0 26px;
+  transform: translateY(-50%);
 }
 
 .choice-group__icon--themes {
@@ -703,31 +704,9 @@ input:focus-visible + span {
   }
 
   .home-screen__button {
-  position: absolute;
-  top: 63.77%;
-  left: 50%;
-  display: inline-flex;
-  min-height: 0;
-  gap: 16px;
-  margin: 0;
-  padding: 24px 20px;
-  transform: translateX(-50%);
-  font-size: 40px;
-  line-height: normal;
-  white-space: nowrap;
-}
-
-.home-screen__button > img:first-child {
-  width: 44px;
-  height: auto;
-  flex: 0 0 auto;
-}
-
-.primary-button__arrow {
-  width: 35px;
-  height: auto;
-  flex: 0 0 auto;
-}
+    top: 64%;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
 
   .home-screen__controller {
     top: auto;
