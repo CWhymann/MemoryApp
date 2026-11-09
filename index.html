@@ -51,15 +51,54 @@
       <section class="screen settings-screen" data-screen="settings" hidden>
         <div class="settings-screen__content">
           <header class="page-heading">
-            <p class="page-heading__eyebrow">Memory game</p>
             <h1>Settings</h1>
+            <span class="page-heading__underline" aria-hidden="true"></span>
           </header>
 
           <form id="settings-form" class="settings-layout">
             <div class="settings-layout__choices">
               <fieldset class="choice-group">
                 <legend>
-                  <span class="choice-group__icon" aria-hidden="true">♟</span>
+                  <img
+                    class="choice-group__icon"
+                    src="/assets/icons/palette.svg"
+                    alt=""
+                  />
+                  Game themes
+                </legend>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="code-vibes" />
+                  <span class="radio-option__dot"></span>
+                  <span>Code vibes theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="gaming" />
+                  <span class="radio-option__dot"></span>
+                  <span>Gaming theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="da-projects" />
+                  <span class="radio-option__dot"></span>
+                  <span>DA Projects theme</span>
+                </label>
+
+                <label class="radio-option">
+                  <input type="radio" name="theme" value="foods" />
+                  <span class="radio-option__dot"></span>
+                  <span>Foods theme</span>
+                </label>
+              </fieldset>
+
+              <fieldset class="choice-group">
+                <legend>
+                  <img
+                    class="choice-group__icon"
+                    src="/assets/icons/chess-pawn.svg"
+                    alt=""
+                  />
                   Choose player
                 </legend>
 
@@ -82,7 +121,11 @@
 
               <fieldset class="choice-group">
                 <legend>
-                  <span class="choice-group__icon" aria-hidden="true">▦</span>
+                  <img
+                    class="choice-group__icon"
+                    src="/assets/icons/style.svg"
+                    alt=""
+                  />
                   Board size
                 </legend>
 
@@ -106,52 +149,15 @@
               </fieldset>
             </div>
 
-            <fieldset class="choice-group theme-group">
-              <legend>
-                <span class="choice-group__icon" aria-hidden="true">◈</span>
-                Game themes
-              </legend>
-
-              <div class="theme-grid">
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="code-vibes" />
-                  <span class="theme-card theme-card--code">
-                    <span class="theme-card__art" aria-hidden="true"
-                      >&lt;/&gt;</span
-                    >
-                    <span class="theme-card__name">Code vibes</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="gaming" />
-                  <span class="theme-card theme-card--gaming">
-                    <span class="theme-card__art" aria-hidden="true">✦</span>
-                    <span class="theme-card__name">Gaming</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="da-projects" />
-                  <span class="theme-card theme-card--projects">
-                    <span class="theme-card__art" aria-hidden="true">DA</span>
-                    <span class="theme-card__name">DA projects</span>
-                  </span>
-                </label>
-
-                <label class="theme-option">
-                  <input type="radio" name="theme" value="foods" />
-                  <span class="theme-card theme-card--foods">
-                    <span class="theme-card__art" aria-hidden="true">✿</span>
-                    <span class="theme-card__name">Foods</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
+            <div class="settings-layout__preview" aria-hidden="true">
+              <div id="theme-preview" class="theme-preview"></div>
+            </div>
 
             <div class="settings-footer">
-              <p id="selection-summary">
-                Choose a player, board size and theme to continue.
+              <p id="selection-summary" class="settings-footer__steps">
+                <span data-step="theme">Game theme</span>
+                <span data-step="player">Player</span>
+                <span data-step="boardSize">Board size</span>
               </p>
               <button
                 class="primary-button primary-button--small"
@@ -159,8 +165,8 @@
                 type="button"
                 disabled
               >
+                <img src="/assets/icons/smart-display.svg" alt="" />
                 <span>Start</span>
-                <span aria-hidden="true">→</span>
               </button>
             </div>
           </form>
@@ -243,15 +249,14 @@
       class="exit-dialog"
       aria-labelledby="exit-dialog-title"
     >
-      <h2 id="exit-dialog-title">Leave the game?</h2>
-      <p>Your current game will end.</p>
+      <h2 id="exit-dialog-title">Are you sure you want to quit the game?</h2>
       <div class="exit-dialog__actions">
         <button
           class="secondary-button"
           type="button"
           data-action="cancel-exit"
         >
-          Keep playing
+          Back to game
         </button>
         <button
           class="primary-button primary-button--small"

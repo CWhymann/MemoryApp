@@ -17,6 +17,11 @@ import type {
 } from "./game/types";
 
 const MISMATCH_DELAY_MS = 850;
+const DEFAULT_STEP_LABELS: Record<string, string> = {
+  theme: "Game theme",
+  player: "Player",
+  boardSize: "Board size",
+};
 
 const gameSetup: GameSetup = {
   playerColor: null,
@@ -67,17 +72,101 @@ function showScreen(screenName: string): void {
   });
 }
 
-/** Updates the selected options and Start button. */
+/** Capitalizes the first letter of a player color for display. */
+function formatPlayerColor(color: PlayerColor): string {
+  return color.charAt(0).toUpperCase() + color.slice(1);
+}
+
+/** Shows the chosen value in each footer step, or its default label. */
+function updateStepLabels(): void {
+  const values: Record<string, string | null> = {
+    theme: gameSetup.theme ? THEME_NAMES[gameSetup.theme] : null,
+    player: gameSetup.playerColor
+      ? formatPlayerColor(gameSetup.playerColor)
+      : null,
+    boardSize: gameSetup.boardSize ? `${gameSetup.boardSize} cards` : null,
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-step]").forEach((step) => {
+    const key = step.dataset.step ?? "";
+    const value = values[key];
+
+    step.textContent = value ?? DEFAULT_STEP_LABELS[key];
+    step.classList.toggle("is-selected", value !== null);
+  });
+}
+
+/** Enables the Start button only when all three settings are chosen. */
+function updateStartButton(): void {
+  const isComplete =
+    gameSetup.playerColor !== null &&
+    gameSetup.boardSize !== null &&
+    gameSetup.theme !== null;
+
+  startButton.disabled = !isComplete;
+}
+
+/** Creates an element with a class and text content. */
+function createTextElement(
+  tag: string,
+  className: string,
+  text: string,
+): HTMLElement {
+  const element = document.createElement(tag);
+
+  element.className = className;
+  element.textContent = text;
+  return element;
+}
+
+/** Creates the score and exit row of the settings preview. */
+function createPreviewHeader(): HTMLElement {
+  const header = document.createElement("div");
+
+  header.className = "theme-preview__header";
+  header.append(
+    createTextElement("span", "theme-preview__score", "Blue 0"),
+    createTextElement("span", "theme-preview__score", "Orange 0"),
+    createTextElement("span", "theme-preview__current", "Current player:"),
+    createTextElement("span", "theme-preview__exit", "Exit game"),
+  );
+  return header;
+}
+
+/** Creates the two decorative cards of the settings preview. */
+function createPreviewCards(): HTMLElement {
+  const cards = document.createElement("div");
+
+  cards.className = "theme-preview__cards";
+  cards.append(
+    createTextElement(
+      "div",
+      "theme-preview__card theme-preview__card--back",
+      "",
+    ),
+    createTextElement(
+      "div",
+      "theme-preview__card theme-preview__card--front",
+      "",
+    ),
+  );
+  return cards;
+}
+
+/** Redraws the settings preview with the current theme and player. */
+function renderPreview(): void {
+  const preview = getElement<HTMLDivElement>("#theme-preview");
+
+  preview.dataset.theme = gameSetup.theme ?? "code-vibes";
+  preview.dataset.player = gameSetup.playerColor ?? "blue";
+  preview.replaceChildren(createPreviewHeader(), createPreviewCards());
+}
+
+/** Updates the footer, the preview and the Start button. */
 function updateSetupDisplay(): void {
-  const selectedOptions: string[] = [];
-
-  if (gameSetup.playerColor) selectedOptions.push(gameSetup.playerColor);
-  if (gameSetup.boardSize) selectedOptions.push(`${gameSetup.boardSize} cards`);
-  if (gameSetup.theme) selectedOptions.push(THEME_NAMES[gameSetup.theme]);
-
-  getElement("#selection-summary").textContent =
-    selectedOptions.join(" · ") || "Choose your game settings.";
-  startButton.disabled = selectedOptions.length !== 3;
+  updateStepLabels();
+  updateStartButton();
+  renderPreview();
 }
 
 /** Stores a valid setting selected by the user. */
@@ -320,3 +409,4 @@ getElement<HTMLFormElement>("#settings-form").addEventListener(
 startButton.addEventListener("click", startGame);
 board.addEventListener("click", handleBoardClick);
 document.addEventListener("click", handleButtonClick);
+updateSetupDisplay();
