@@ -146,6 +146,18 @@ input:focus-visible + span {
   height: 301.315px;
   transform: rotate(37.42deg);
   transform-origin: center;
+  animation: controller-float 4s ease-in-out infinite;
+}
+
+@keyframes controller-float {
+  0%,
+  100% {
+    transform: rotate(37.42deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(37.42deg) translateY(-14px);
+  }
 }
 
 .settings-screen {
@@ -178,16 +190,33 @@ input:focus-visible + span {
   font-size: clamp(3rem, 6vw, 5rem);
 }
 
+.page-heading__underline {
+  display: block;
+  width: 240px;
+  height: 3px;
+  margin-top: 10px;
+  background: var(--yellow);
+}
+
 .settings-layout {
   display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) minmax(360px, 1.2fr);
-  gap: 48px;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr);
+  grid-template-rows: auto auto;
+  gap: 32px 48px;
+  align-items: start;
 }
 
 .settings-layout__choices {
+  grid-column: 1;
+  grid-row: 1 / span 2;
   display: flex;
   flex-direction: column;
   gap: 42px;
+}
+
+.settings-layout__preview {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .choice-group {
@@ -207,14 +236,12 @@ input:focus-visible + span {
 }
 
 .choice-group__icon {
-  display: inline-grid;
   width: 32px;
   height: 32px;
-  place-items: center;
-  font-size: 1.5rem;
 }
 
 .radio-option {
+  position: relative;
   display: flex;
   min-height: 42px;
   align-items: center;
@@ -224,8 +251,7 @@ input:focus-visible + span {
   cursor: pointer;
 }
 
-.radio-option input,
-.theme-option input {
+.radio-option input {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -241,10 +267,32 @@ input:focus-visible + span {
   flex: 0 0 20px;
   border: 2px solid #8e9292;
   border-radius: 50%;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease;
+}
+
+.radio-option:hover .radio-option__dot {
+  transform: scale(1.15);
 }
 
 .radio-option input:checked + .radio-option__dot {
   border: 6px solid var(--ink);
+  animation: option-select 300ms ease;
+}
+
+@keyframes option-select {
+  0% {
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .radio-option input:checked + .radio-option__dot--blue {
@@ -255,85 +303,141 @@ input:focus-visible + span {
   border-color: var(--orange);
 }
 
-.theme-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.theme-group .radio-option input:checked ~ span:not(.radio-option__dot) {
+  font-weight: 700;
 }
 
-.theme-option {
-  display: block;
-  cursor: pointer;
+.theme-preview {
+  --preview-bg: linear-gradient(
+    220.57deg,
+    rgb(48, 49, 49) 43.86%,
+    rgb(109, 109, 109) 122.2%
+  );
+  --preview-card-front: linear-gradient(
+    212.26deg,
+    rgb(77, 213, 188) 29.42%,
+    rgb(40, 111, 98) 123.94%
+  );
+  --preview-card-back: #e8f3f0;
+  --preview-pill: rgba(134, 233, 214, 0.3);
+  --preview-exit-border: #4dd5bc;
+  --preview-exit-bg: rgba(77, 213, 188, 0.2);
+  --preview-text: white;
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 460 / 412;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 20px;
+  color: var(--preview-text);
+  background: var(--preview-bg);
 }
 
-.theme-card {
+.theme-preview[data-theme="gaming"] {
+  --preview-bg: #294f60;
+  --preview-card-front: linear-gradient(
+    143.55deg,
+    rgb(237, 27, 118) 1.28%,
+    rgb(10, 40, 53) 142.53%
+  );
+  --preview-card-back: #f6f1f3;
+  --preview-pill: rgba(253, 150, 201, 0.2);
+  --preview-exit-border: #e71c4f;
+  --preview-exit-bg: rgba(237, 27, 118, 0.08);
+}
+
+.theme-preview[data-player="blue"] {
+  --preview-player: #2bb1ff;
+}
+
+.theme-preview[data-player="orange"] {
+  --preview-player: #f58e39;
+}
+
+.theme-preview__header {
   display: flex;
-  min-height: 145px;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 3px solid transparent;
-  padding: 14px;
-  transition:
-    transform 160ms ease,
-    border-color 160ms ease;
-}
-
-.theme-option:hover .theme-card {
-  transform: translateY(-3px);
-}
-
-.theme-option input:checked + .theme-card {
-  border-color: var(--ink);
-}
-
-.theme-card--code {
-  color: #173c3a;
-  background: linear-gradient(135deg, #4dd5bc, #286f62);
-}
-
-.theme-card--gaming {
-  color: white;
-  background: linear-gradient(135deg, #7056db, #303131);
-}
-
-.theme-card--projects {
-  color: white;
-  background: linear-gradient(135deg, #316dc5, #24345d);
-}
-
-.theme-card--foods {
-  color: #56341e;
-  background: linear-gradient(135deg, #f3b04c, #f3832d);
-}
-
-.theme-card__art {
+  justify-content: space-between;
+  gap: 12px;
   font-family: "Red Rose", serif;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 10px;
 }
 
-.theme-card__name {
-  font-size: 0.95rem;
-  font-weight: 700;
+.theme-preview__score {
+  padding: 4px 8px;
+  background: var(--preview-pill);
+  color: var(--ink);
+}
+
+.theme-preview__current::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 6px;
+  background: var(--preview-player);
+}
+
+.theme-preview__exit {
+  padding: 4px 8px;
+  border: 1px solid var(--preview-exit-border);
+  background: var(--preview-exit-bg);
+}
+
+.theme-preview__cards {
+  position: relative;
+  height: 280px;
+}
+
+.theme-preview__card {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  box-shadow: 4px 4px 3px #0003;
+}
+
+.theme-preview__card--back {
+  top: 30px;
+  left: 150px;
+  background: var(--preview-card-back);
+  transform: rotate(8deg);
+}
+
+.theme-preview__card--front {
+  top: 70px;
+  left: 60px;
+  background: var(--preview-card-front);
+  transform: rotate(-5deg);
 }
 
 .settings-footer {
+  grid-column: 2;
+  grid-row: 2;
   display: flex;
-  grid-column: 1 / -1;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 8px;
-  border-top: 1px solid #dedede;
-  padding-top: 22px;
+  padding: 16px 20px;
+  background: #f6f6f6;
 }
 
-.settings-footer p {
+.settings-footer__steps {
   margin: 0;
   color: var(--muted);
-  line-height: 1.5;
+  font-size: 1.1rem;
+}
+
+.settings-footer__steps span + span::before {
+  content: "/";
+  margin: 0 12px;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.settings-footer__steps span.is-selected {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .game-screen {
@@ -569,17 +673,13 @@ input:focus-visible + span {
 
   .settings-layout {
     grid-template-columns: 1fr;
-    gap: 34px;
   }
 
-  .settings-layout__choices {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
-
-  .theme-group {
+  .settings-layout__choices,
+  .settings-layout__preview,
+  .settings-footer {
     grid-column: 1;
+    grid-row: auto;
   }
 
   .game-header {
@@ -622,16 +722,9 @@ input:focus-visible + span {
     padding: 24px 18px;
   }
 
-  .settings-layout__choices {
-    grid-template-columns: 1fr;
-  }
-
-  .theme-grid {
-    gap: 10px;
-  }
-
-  .theme-card {
-    min-height: 120px;
+  .settings-footer {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .game-header {
