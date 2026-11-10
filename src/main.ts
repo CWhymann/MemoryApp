@@ -233,6 +233,24 @@ function renderBoard(): void {
   getElement("#game-theme-heading").textContent = THEME_NAMES[gameSetup.theme];
 }
 
+/** Shows the card's motif image, or its symbol as text if the image is missing. */
+function renderSymbol(symbol: HTMLSpanElement, card: MemoryCard): void {
+  if (symbol.dataset.src === card.imagePath) return;
+
+  const image = document.createElement("img");
+
+  image.src = card.imagePath;
+  image.alt = card.label;
+  image.style.width = "80%";
+  image.style.height = "80%";
+  image.style.objectFit = "contain";
+  image.addEventListener("error", () => {
+    symbol.textContent = card.symbol;
+  });
+  symbol.replaceChildren(image);
+  symbol.dataset.src = card.imagePath;
+}
+
 /** Updates a card button to match its current state. */
 function renderCard(card: MemoryCard): void {
   const button = board.querySelector<HTMLButtonElement>(
@@ -242,7 +260,7 @@ function renderCard(card: MemoryCard): void {
 
   if (!button || !symbol) return;
 
-  symbol.textContent = card.symbol;
+  renderSymbol(symbol, card);
   button.classList.toggle("is-flipped", card.faceUp || card.matched);
   button.classList.toggle("is-matched", card.matched);
   button.setAttribute(
