@@ -13,6 +13,7 @@ import type {
   GameState,
   MemoryCard,
   PlayerColor,
+  ThemeCard,
   ThemeId,
 } from "./game/types";
 
@@ -133,8 +134,29 @@ function createPreviewHeader(): HTMLElement {
   return header;
 }
 
+/** Creates the front preview card, showing the theme motif when available. */
+function createPreviewFrontCard(motif: ThemeCard | undefined): HTMLElement {
+  const front = createTextElement(
+    "div",
+    "theme-preview__card theme-preview__card--front",
+    "",
+  );
+
+  if (!motif) return front;
+
+  const image = document.createElement("img");
+
+  image.src = motif.imagePath;
+  image.alt = motif.label;
+  image.addEventListener("error", () => {
+    image.replaceWith(document.createTextNode(motif.symbol));
+  });
+  front.append(image);
+  return front;
+}
+
 /** Creates the two decorative cards of the settings preview. */
-function createPreviewCards(): HTMLElement {
+function createPreviewCards(motif: ThemeCard | undefined): HTMLElement {
   const cards = document.createElement("div");
 
   cards.className = "theme-preview__cards";
@@ -144,11 +166,7 @@ function createPreviewCards(): HTMLElement {
       "theme-preview__card theme-preview__card--back",
       "",
     ),
-    createTextElement(
-      "div",
-      "theme-preview__card theme-preview__card--front",
-      "",
-    ),
+    createPreviewFrontCard(motif),
   );
   return cards;
 }
@@ -156,10 +174,14 @@ function createPreviewCards(): HTMLElement {
 /** Redraws the settings preview with the current theme and player. */
 function renderPreview(): void {
   const preview = getElement<HTMLDivElement>("#theme-preview");
+  const themeId = gameSetup.theme ?? "code-vibes";
 
-  preview.dataset.theme = gameSetup.theme ?? "code-vibes";
+  preview.dataset.theme = themeId;
   preview.dataset.player = gameSetup.playerColor ?? "blue";
-  preview.replaceChildren(createPreviewHeader(), createPreviewCards());
+  preview.replaceChildren(
+    createPreviewHeader(),
+    createPreviewCards(THEME_CARDS[themeId][0]),
+  );
 }
 
 /** Updates the footer, the preview and the Start button. */

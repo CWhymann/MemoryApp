@@ -297,7 +297,26 @@ input:focus-visible + span {
   border-color: var(--player-orange);
 }
 
+.theme-group .radio-option {
+  gap: 0;
+}
+
+.theme-group .radio-option__dot {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border: 0;
+  background: url("/assets/icons/fiber-manual-record.svg") no-repeat center /
+    contain;
+}
+
+.theme-group .radio-option input:checked + .radio-option__dot {
+  border: 0;
+  background: url("/assets/icons/mode-standby.svg") no-repeat center / contain;
+}
+
 .theme-group .radio-option > span:not(.radio-option__dot) {
+  margin-left: 12px;
   transition: font-weight 150ms ease;
 }
 
@@ -382,6 +401,15 @@ input:focus-visible + span {
   width: 180px;
   height: 180px;
   box-shadow: 4px 4px 3px #0003;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-preview__card img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .theme-preview__card--back {
