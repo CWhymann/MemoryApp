@@ -1,0 +1,77 @@
+:root,
+[data-theme="code-vibes"] {
+  --theme-bg: linear-gradient(220.57deg, #303131 43.86%, #6d6d6d 122.2%);
+  --theme-board-bg: #303131;
+  --theme-card-back: linear-gradient(
+    212.26deg,
+    #4dd5bc 29.42%,
+    #286f62 123.94%
+  );
+  --theme-card-front: #e8f3f0;
+  --theme-accent: #4dd5bc;
+  --theme-accent-soft: rgba(77, 213, 188, 0.2);
+  --theme-pill: rgba(134, 233, 214, 0.3);
+  --theme-text: #ffffff;
+  --theme-exit-border: #4dd5bc;
+  --theme-button: #4dd5bc;
+  --theme-button-text: #303131;
+  --theme-match: #e8f3f0;
+}
+
+[data-theme="gaming"] {
+  --theme-bg: linear-gradient(180deg, #294f60 0%, #2086b4 100%);
+  --theme-board-bg: #294f60;
+  --theme-card-back: linear-gradient(143.55deg, #ed1b76 1.28%, #0a2835 142.53%);
+  --theme-card-front: #f6f1f3;
+  --theme-accent: #ed1b76;
+  --theme-accent-soft: rgba(237, 27, 118, 0.08);
+  --theme-pill: rgba(253, 150, 201, 0.2);
+  --theme-text: #ffffff;
+  --theme-exit-border: #e71c4f;
+  --theme-button: #ed1b76;
+  --theme-button-text: #ffffff;
+  --theme-match: #f6f1f3;
+}
+
+[data-theme="da-projects"] {
+  --theme-bg: #bfe5f2;
+  --theme-board-bg: #bfe5f2;
+  --theme-card-back: #1e7594;
+  --theme-card-front: #eaf2f4;
+  --theme-accent: #1e7594;
+  --theme-accent-soft: rgba(30, 117, 148, 0.1);
+  --theme-pill: #ddeaef;
+  --theme-text: #303131;
+  --theme-exit-border: #1e7594;
+  --theme-button: #1e7594;
+  --theme-button-text: #ffffff;
+  --theme-match: #ddeaef;
+}
+
+[data-theme="foods"] {
+  --theme-bg: #e8e2dc;
+  --theme-board-bg: #e8e2dc;
+  --theme-card-back: #f3832d;
+  --theme-card-front: #faf0e6;
+  --theme-accent: #f3832d;
+  --theme-accent-soft: rgba(243, 131, 45, 0.1);
+  --theme-pill: #f7e6d5;
+  --theme-text: #303131;
+  --theme-exit-border: #f3832d;
+  --theme-button: #f3832d;
+  --theme-button-text: #ffffff;
+  --theme-match: #f7e6d5;
+}
+
+:root {
+  --ink: #303131;
+  --paper: #f6f6f6;
+  --yellow: #f0ea6e;
+  --blue: #097fc5;
+  --orange: #f3832d;
+  --muted: #777b7b;
+  --disabled-bg: #dbdbd6;
+  --disabled-text: #a3a1a1;
+  --player-blue: #097fc5;
+  --player-orange: #ea6900;
+}
