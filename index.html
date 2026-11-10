@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Delius+Unicase:wght@700&family=Klee+One:wght@400;600&family=Red+Rose:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Delius+Unicase:wght@700&family=Klee+One:wght@400;600&family=Red+Rose:wght@400;700&family=Orbitron:wght@400;700&family=Figtree:wght@400;700&family=Hannotate+SC:wght@400;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -31,13 +31,19 @@
             type="button"
             data-action="open-settings"
           >
-            <img src="/assets/icons/controller-button.svg" alt="" />
+            <span class="primary-button__icon primary-button__icon--default">
+              <img src="/assets/icons/controller-button.svg" alt="" />
+            </span>
+            <span class="primary-button__icon primary-button__icon--hover">
+              <img src="/assets/icons/play-controller-hover.svg" alt="" />
+            </span>
             <span>Play</span>
-            <img
-              class="primary-button__arrow"
-              src="/assets/icons/arrow.svg"
-              alt=""
-            />
+            <span class="primary-button__arrow primary-button__arrow--default">
+              <img src="/assets/icons/arrow.svg" alt="" />
+            </span>
+            <span class="primary-button__arrow primary-button__arrow--hover">
+              <img src="/assets/icons/play-arrow-hover.svg" alt="" />
+            </span>
           </button>
         </div>
 
@@ -104,17 +110,13 @@
 
                 <label class="radio-option">
                   <input type="radio" name="playerColor" value="blue" />
-                  <span
-                    class="radio-option__dot radio-option__dot--blue"
-                  ></span>
+                  <span class="radio-option__dot radio-option__dot--blue"></span>
                   <span>Blue</span>
                 </label>
 
                 <label class="radio-option">
                   <input type="radio" name="playerColor" value="orange" />
-                  <span
-                    class="radio-option__dot radio-option__dot--orange"
-                  ></span>
+                  <span class="radio-option__dot radio-option__dot--orange"></span>
                   <span>Orange</span>
                 </label>
               </fieldset>
