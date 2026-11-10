@@ -13,7 +13,6 @@ import type {
   GameState,
   MemoryCard,
   PlayerColor,
-  ThemeCard,
   ThemeId,
 } from "./game/types";
 
@@ -22,6 +21,16 @@ const DEFAULT_STEP_LABELS: Record<string, string> = {
   theme: "Game theme",
   player: "Player",
   boardSize: "Board size",
+};
+
+const PREVIEW_MOTIFS: Record<ThemeId, { imagePath: string; label: string }> = {
+  "code-vibes": { imagePath: "/assets/cards/code-vibes/git.png", label: "Git" },
+  gaming: { imagePath: "/assets/cards/image26_2290_4090.png", label: "Dice" },
+  "da-projects": {
+    imagePath: "/assets/cards/da-projects/shark.png",
+    label: "Shark",
+  },
+  foods: { imagePath: "/assets/cards/foods/pot.png", label: "Pot" },
 };
 
 const gameSetup: GameSetup = {
@@ -132,14 +141,14 @@ function createIcon(path: string, className: string): HTMLImageElement {
 
 /** Creates a player score with its pawn icon. */
 function createPreviewScore(color: PlayerColor, score: number): HTMLElement {
-  const score_element = document.createElement("span");
+  const scoreElement = document.createElement("span");
 
-  score_element.className = `theme-preview__score theme-preview__score--${color}`;
-  score_element.append(
+  scoreElement.className = `theme-preview__score theme-preview__score--${color}`;
+  scoreElement.append(
     createIcon("/assets/icons/chess-pawn.svg", "theme-preview__pawn"),
     createTextElement("span", "", String(score)),
   );
-  return score_element;
+  return scoreElement;
 }
 
 /** Creates the top bar of the settings preview with scores, player and exit. */
@@ -169,21 +178,20 @@ function createPreviewBar(): HTMLElement {
   return bar;
 }
 
-/** Creates one preview card. It shows the motif image, or the symbol if the image is missing. */
-function createPreviewCard(
-  className: string,
-  motif: ThemeCard | undefined,
-): HTMLElement {
-  const card = createTextElement("div", `theme-preview__card ${className}`, "");
-
-  if (!motif) return card;
-
+/** Creates the front preview card, showing its motif image or name as fallback. */
+function createPreviewFrontCard(themeId: ThemeId): HTMLElement {
+  const motif = PREVIEW_MOTIFS[themeId];
+  const card = createTextElement(
+    "div",
+    "theme-preview__card theme-preview__card--front",
+    "",
+  );
   const image = document.createElement("img");
 
   image.src = motif.imagePath;
   image.alt = motif.label;
   image.addEventListener("error", () => {
-    image.replaceWith(document.createTextNode(motif.symbol));
+    image.replaceWith(document.createTextNode(motif.label));
   });
   card.append(image);
   return card;
@@ -192,12 +200,15 @@ function createPreviewCard(
 /** Creates the stage with the back card and the front card of the theme. */
 function createPreviewStage(themeId: ThemeId): HTMLElement {
   const stage = document.createElement("div");
-  const motifs = THEME_CARDS[themeId];
 
   stage.className = "theme-preview__stage";
   stage.append(
-    createPreviewCard("theme-preview__card--back", undefined),
-    createPreviewCard("theme-preview__card--front", motifs[0]),
+    createTextElement(
+      "div",
+      "theme-preview__card theme-preview__card--back",
+      "",
+    ),
+    createPreviewFrontCard(themeId),
   );
   return stage;
 }
