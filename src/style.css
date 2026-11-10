@@ -297,8 +297,33 @@ input:focus-visible + span {
   border-color: var(--player-orange);
 }
 
-.theme-group .radio-option input:checked ~ span:not(.radio-option__dot) {
+.theme-group .radio-option > span:not(.radio-option__dot) {
+  transition: font-weight 150ms ease;
+}
+
+.theme-group .radio-option:hover > span:not(.radio-option__dot),
+.theme-group .radio-option:has(input:checked) > span:not(.radio-option__dot) {
   font-weight: 700;
+}
+
+.theme-group .radio-option::after {
+  content: "";
+  display: block;
+  flex: 0 0 auto;
+  width: 0;
+  height: 16px;
+  margin-left: 0;
+  background: url("/assets/icons/theme-arrow.svg") no-repeat center / contain;
+  overflow: hidden;
+  transition:
+    width 250ms ease,
+    margin-left 250ms ease;
+}
+
+.theme-group .radio-option:hover::after,
+.theme-group .radio-option:has(input:checked)::after {
+  width: 41px;
+  margin-left: 16px;
 }
 
 .theme-preview {
