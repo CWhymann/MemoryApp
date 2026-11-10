@@ -114,6 +114,22 @@ input:focus-visible + span {
   font-size: 1.25rem;
 }
 
+.primary-button__icon,
+.primary-button__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary-button__icon--hover,
+.primary-button__arrow--hover {
+  display: none;
+}
+
+.primary-button__icon--hover img {
+  transform: rotate(-25.77deg);
+}
+
 .home-screen__button {
   position: absolute;
   top: 63.77%;
@@ -130,6 +146,21 @@ input:focus-visible + span {
 
 .home-screen__button:hover:not(:disabled) {
   transform: translate(-50%, -2px);
+}
+
+.home-screen__button:hover .primary-button__icon--default,
+.home-screen__button:hover .primary-button__arrow--default {
+  display: none;
+}
+
+.home-screen__button:hover .primary-button__icon--hover,
+.home-screen__button:hover .primary-button__arrow--hover {
+  display: flex;
+}
+
+.home-screen__button:hover .primary-button__arrow--hover img {
+  width: 36px;
+  height: auto;
 }
 
 .home-screen__controller {
