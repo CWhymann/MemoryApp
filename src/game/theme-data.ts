@@ -17,24 +17,24 @@ const FOODS_FILES: readonly number[] = [
 
 const THEME_SYMBOLS: Record<ThemeId, readonly string[]> = {
   "code-vibes": [
-    "JS",
-    "CSS",
-    "HTML",
-    "TS",
-    "{}",
-    "</>",
-    "JSX",
-    "npm",
-    "API",
-    "DB",
     "Git",
+    "TS",
+    "JS",
+    "HTML",
     "VS",
+    "CSS",
     "Django",
+    "Angular",
+    "Terminal",
+    "Python",
+    "GitHub",
     "Node",
-    "React",
+    "Bootstrap",
     "Vue",
+    "React",
     "Sass",
-    "SQL",
+    "DB",
+    "Firebase",
   ],
   gaming: [
     "🎮",
@@ -57,43 +57,43 @@ const THEME_SYMBOLS: Record<ThemeId, readonly string[]> = {
     "💎",
   ],
   "da-projects": [
-    "DA",
-    "UX",
-    "UI",
-    "AI",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
+    "Noodles",
+    "Soup",
+    "Egg",
+    "Flower",
+    "JOIN",
+    "Wrench",
+    "Coder",
+    "Basket",
+    "Pokeball",
+    "Sudoku",
+    "Smile",
+    "Arrow",
+    "Chat",
+    "Taco",
+    "Tree",
+    "User",
+    "Shark",
+    "Coins",
   ],
   foods: [
-    "🍋",
-    "🍊",
-    "🍒",
-    "🍐",
-    "🍓",
-    "🍇",
-    "🥝",
-    "🍑",
-    "🍉",
-    "🍍",
-    "🥥",
-    "🫐",
-    "🥑",
-    "🥕",
-    "🍄",
-    "🌽",
+    "🍟",
+    "🍕",
+    "🥪",
+    "🍩",
+    "🍣",
+    "🌭",
+    "🍔",
     "🥨",
+    "🧁",
+    "🍮",
+    "🍮",
+    "🍫",
+    "🍗",
+    "🌯",
+    "🌮",
+    "🍦",
+    "🥗",
     "🍪",
   ],
 };
@@ -107,7 +107,16 @@ function getImagePath(themeId: ThemeId, index: number): string {
   }
 
   if (themeId === "foods") {
+    if (index === 13) return "/assets/cards/doener.svg";
     return `/assets/cards/image${FOODS_FILES[index]}_2290_4090.png`;
+  }
+
+  if (themeId === "code-vibes" && index === 0) {
+    return "/assets/cards/git.svg";
+  }
+
+  if (themeId === "da-projects" && index === 16) {
+    return "/assets/cards/shark.svg";
   }
 
   return `/assets/cards/${themeId}/${cardNumber}.png`;
