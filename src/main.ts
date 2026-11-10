@@ -120,29 +120,63 @@ function createTextElement(
   return element;
 }
 
-/** Creates the score and exit row of the settings preview. */
-function createPreviewHeader(): HTMLElement {
-  const header = document.createElement("div");
+/** Creates an icon image element from a path in public/assets/icons. */
+function createIcon(path: string, className: string): HTMLImageElement {
+  const image = document.createElement("img");
 
-  header.className = "theme-preview__header";
-  header.append(
-    createTextElement("span", "theme-preview__score", "Blue 0"),
-    createTextElement("span", "theme-preview__score", "Orange 0"),
-    createTextElement("span", "theme-preview__current", "Current player:"),
-    createTextElement("span", "theme-preview__exit", "Exit game"),
-  );
-  return header;
+  image.src = path;
+  image.alt = "";
+  image.className = className;
+  return image;
 }
 
-/** Creates the front preview card, showing the theme motif when available. */
-function createPreviewFrontCard(motif: ThemeCard | undefined): HTMLElement {
-  const front = createTextElement(
-    "div",
-    "theme-preview__card theme-preview__card--front",
-    "",
+/** Creates a player score with its pawn icon. */
+function createPreviewScore(color: PlayerColor, score: number): HTMLElement {
+  const score_element = document.createElement("span");
+
+  score_element.className = `theme-preview__score theme-preview__score--${color}`;
+  score_element.append(
+    createIcon("/assets/icons/chess-pawn.svg", "theme-preview__pawn"),
+    createTextElement("span", "", String(score)),
+  );
+  return score_element;
+}
+
+/** Creates the top bar of the settings preview with scores, player and exit. */
+function createPreviewBar(): HTMLElement {
+  const bar = document.createElement("div");
+  const scores = document.createElement("div");
+  const current = document.createElement("span");
+  const exit = document.createElement("span");
+
+  bar.className = "theme-preview__bar";
+  scores.className = "theme-preview__scores";
+  scores.append(createPreviewScore("blue", 0), createPreviewScore("orange", 0));
+
+  current.className = "theme-preview__current";
+  current.append(
+    "Current player:",
+    createIcon("/assets/icons/chess-pawn.svg", "theme-preview__pawn"),
   );
 
-  if (!motif) return front;
+  exit.className = "theme-preview__exit";
+  exit.append(
+    createIcon("/assets/icons/move-item.svg", "theme-preview__exit-icon"),
+    "Exit game",
+  );
+
+  bar.append(scores, current, exit);
+  return bar;
+}
+
+/** Creates one preview card. It shows the motif image, or the symbol if the image is missing. */
+function createPreviewCard(
+  className: string,
+  motif: ThemeCard | undefined,
+): HTMLElement {
+  const card = createTextElement("div", `theme-preview__card ${className}`, "");
+
+  if (!motif) return card;
 
   const image = document.createElement("img");
 
@@ -151,24 +185,21 @@ function createPreviewFrontCard(motif: ThemeCard | undefined): HTMLElement {
   image.addEventListener("error", () => {
     image.replaceWith(document.createTextNode(motif.symbol));
   });
-  front.append(image);
-  return front;
+  card.append(image);
+  return card;
 }
 
-/** Creates the two decorative cards of the settings preview. */
-function createPreviewCards(motif: ThemeCard | undefined): HTMLElement {
-  const cards = document.createElement("div");
+/** Creates the stage with the back card and the front card of the theme. */
+function createPreviewStage(themeId: ThemeId): HTMLElement {
+  const stage = document.createElement("div");
+  const motifs = THEME_CARDS[themeId];
 
-  cards.className = "theme-preview__cards";
-  cards.append(
-    createTextElement(
-      "div",
-      "theme-preview__card theme-preview__card--back",
-      "",
-    ),
-    createPreviewFrontCard(motif),
+  stage.className = "theme-preview__stage";
+  stage.append(
+    createPreviewCard("theme-preview__card--back", undefined),
+    createPreviewCard("theme-preview__card--front", motifs[0]),
   );
-  return cards;
+  return stage;
 }
 
 /** Redraws the settings preview with the current theme and player. */
@@ -178,10 +209,7 @@ function renderPreview(): void {
 
   preview.dataset.theme = themeId;
   preview.dataset.player = gameSetup.playerColor ?? "blue";
-  preview.replaceChildren(
-    createPreviewHeader(),
-    createPreviewCards(THEME_CARDS[themeId][0]),
-  );
+  preview.replaceChildren(createPreviewBar(), createPreviewStage(themeId));
 }
 
 /** Updates the footer, the preview and the Start button. */
